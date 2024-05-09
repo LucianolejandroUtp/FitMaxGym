@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+  <!-- Define Persistence Unit -->
+  <persistence-unit name="fitmax_gym_pu" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>dto.Users</class>
+    <class>dto.Distritos</class>
+    <class>dto.RolesUsuarios</class>
+    <class>dto.Paquetes</class>
+    <!--<class>dto.Direcciones</class>-->
+    <class>dto.Membresias</class>
+    <class>dto.Roles</class>
+    <class>dto.Migrations</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <properties>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/fitmaxgymdb"/>
+      <property name="jakarta.persistence.jdbc.user" value="root"/>
+      <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
+      <property name="jakarta.persistence.jdbc.password" value=""/>
+    </properties>
+  </persistence-unit>
+</persistence>
