@@ -5,9 +5,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>dto.Users</class>
     <class>dto.Distritos</class>
-    <class>dto.RolesUsuarios</class>
     <class>dto.Paquetes</class>
-    <!--<class>dto.Direcciones</class>-->
     <class>dto.Membresias</class>
     <class>dto.Roles</class>
     <class>dto.Migrations</class>

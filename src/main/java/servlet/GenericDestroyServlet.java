@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package servlet;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -14,66 +10,62 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Lucy
- */
 @WebServlet(name = "GenericDestroyServlet", urlPatterns = {"/GenericDestroyServlet"})
 public class GenericDestroyServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException {
         try {
             response.setContentType("text/html;charset=UTF-8");
+            System.out.println("Entrando al eliminador genérico");
             
-            String entidd = request.getParameter("controlador.jpa.RolesJpaController");
-            String entidad = "Roles";
+//            String entidd = request.getParameter("controlador.jpa.RolesJpaController");
+//            String entidad = "dto.Roles";
+            String jpaController =request.getParameter("jpaController");
+            String servletName =request.getParameter("servletName");
+            String destroyId = request.getParameter("destroyId");
+            
+            System.out.println("Datos de la vista: " + jpaController + " - " + servletName);
             
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
             
+            Class<?> obj_jpa, genericServlet;
+            obj_jpa = Class.forName(jpaController);
+//            obj_archivado = Class.forName(entidad);
+            genericServlet = Class.forName(servletName);
             
-            Class<?> claseJPA;
-            claseJPA = Class.forName(entidad);
-            Constructor<?> constructor = claseJPA.getDeclaredConstructor(EntityManagerFactory.class);
-            Object newInstance = constructor.newInstance(emf);
-            //Object entidadObject = claseJPA.getDeclaredConstructor().newInstance();
+            Constructor<?> constructorJpa = obj_jpa.getDeclaredConstructor(EntityManagerFactory.class);
+//            Constructor<?> constructorEntidad = obj_archivado.getDeclaredConstructor();
+            Constructor<?> constructorServlet = genericServlet.getDeclaredConstructor();
+
+
+            Object instanciaJpa = constructorJpa.newInstance(emf);
+            Object instanciaServlet = constructorServlet.newInstance();
             
-            claseJPA.getDeclaredMethod("findRoles");
+//            for(Method m :obj_jpa.getDeclaredMethods()){
+//                System.out.println(m.getName());
+//            }
+            
+//            Method miMetodoJpaBuscar = obj_jpa.getDeclaredMethod("findRoles", Long.class);
+            Method miMetodoJpaDestroy = obj_jpa.getDeclaredMethod("destroy", Long.class);
+//            Method miMetodoEntidad = obj_archivado.getDeclaredMethod("setEstado", String.class);
+            
+//            instanciaEntidad = miMetodoJpaBuscar.invoke(instanciaJpa, Long.valueOf(3));
+            miMetodoJpaDestroy.invoke(instanciaJpa, Long.valueOf(destroyId));
+            
+//            miMetodoEntidad.invoke(instanciaEntidad, "ELIMINADO");
             
 
-//            entidadObject
-//                    
-//            DistritoJpaController jpaObject = new DistritoJpaController(emf);
-//            Distrito objetoArchivado;
-        } catch (InstantiationException ex) {
-            Logger.getLogger(GenericDestroyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(GenericDestroyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(GenericDestroyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(GenericDestroyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(GenericDestroyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
+
+            Method callGenerico = genericServlet.getDeclaredMethod("processRequest", HttpServletRequest.class, HttpServletResponse.class);
+            callGenerico.invoke(instanciaServlet, request, response);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
             Logger.getLogger(GenericDestroyServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-            
-            
-            
         
     }
 
