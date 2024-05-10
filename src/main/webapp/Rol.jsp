@@ -40,7 +40,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form  action="TdPCreateServlet" method="post">
+                                    <form  action="RolCreateServlet" method="post">
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group form-group-default">
@@ -115,14 +115,16 @@
                                                 <h5 class="modal-title">
                                                     <span class="fw-light">¿Está relamente seguro de querer</span>
                                                     <span class="fw-mediumbold"> eliminar </span>
-                                                    <span class="fw-light">este Tipo de Persona?</span>
+                                                    <span class="fw-light">este Rol?</span>
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="TdPDestroyServlet" method="post">
+                                                <form  action="GenericDestroyServlet" method="post">
+                                                        <input type="hidden" name="jpaController" value="Roles">
+                                                        <input type="hidden" name="servletName" value="Rol">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">

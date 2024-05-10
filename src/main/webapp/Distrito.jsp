@@ -133,8 +133,8 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <form  action="GenericDestroyServlet" method="post">
-                                                        <input type="hidden" name="jpaController" value="controlador.jpa.DistritosJpaController">
-                                                        <input type="hidden" name="servletName" value="servlet.DistritoListServlet">
+                                                        <input type="hidden" name="jpaController" value="Distritos">
+                                                        <input type="hidden" name="servletName" value="Distrito">
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <div class="form-group form-group-default">
