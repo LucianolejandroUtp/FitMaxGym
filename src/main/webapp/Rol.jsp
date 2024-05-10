@@ -156,7 +156,7 @@
                                                     <span class="fw-mediumbold">
                                                         Editar</span> 
                                                     <span class="fw-light">
-                                                        Tipo de Persona
+                                                        Rol
                                                     </span>
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -164,7 +164,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="TdPEditServlet" method="post">
+                                                <form  action="RolEditServlet" method="post">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">

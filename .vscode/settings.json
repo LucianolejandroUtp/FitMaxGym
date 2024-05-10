@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "Servlet",
-        "Web Pages"
+        "Web Pages",
+        "Servlet plus Web Pages"
     ]
 }
