@@ -55,7 +55,8 @@ public class UserLoginServlet extends HttpServlet {
             miListaDePersonas = jpacPersona.findUsersEntities();
 //      miListaDeTdPer = jpacTdPer.findTipoPersonaEntities();
             for (Users per : miListaDePersonas) {
-                System.out.println(per.getId() + ": " + per.getNombres() + ": " + per.getEmail() + ": " + per.getPassword() + ": " + per.getRolesId().getDescripcion());
+//                System.out.println(per.getId() + ": " + per.getNombres() + ": " + per.getEmail() + ": " + per.getPassword() + ": " + per.getRolesId().getDescripcion());
+                System.out.println(per.getId() + ": " + per.getNombres() + ": " + per.getEmail() + ": " + per.getPassword());
                 if (per.getEmail().equals(request.getParameter("loginEmail")) && passEnc.checkPassword(request.getParameter("loginPassword"), per.getPassword())) {
                     miPersonaObtenida = per;
                     banderaLogin = 1;
