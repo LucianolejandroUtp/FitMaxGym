@@ -23,10 +23,9 @@ public class GenericDestroyServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             System.out.println("Entrando al eliminador genérico");
             
-//            String entidd = request.getParameter("controlador.jpa.RolesJpaController");
-//            String entidad = "dto.Roles";
-            String jpaController =request.getParameter("jpaController");
-            String servletName =request.getParameter("servletName");
+//Recibiendo y concatenando nombres de controlador y servlet de la vista junto con el id 
+            String jpaController ="controlador.jpa." + request.getParameter("jpaController") + "JpaController";
+            String servletName = "servlet." + request.getParameter("servletName") + "ListServlet";
             String destroyId = request.getParameter("destroyId");
             
             System.out.println("Datos de la vista: " + jpaController + " - " + servletName);
