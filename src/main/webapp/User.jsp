@@ -57,12 +57,19 @@
                                                     <input required name="addApellidos" type="text" class="form-control">
                                                 </div>
                                                 <div class="form-group form-group-default">
+                                                    <label>Género</label>
+                                                    <select class="form-control" name="addGenero">
+                                                        <option value="1">MASCULINO</option>
+                                                        <option value="2">FEMENINO</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group form-group-default">
                                                     <label>Dirección</label>
                                                     <input required name="addDireccion" type="text" class="form-control">
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Referencia</label>
-                                                    <input required name="addReferencia" type="text" class="form-control">
+                                                    <input name="addReferencia" type="text" class="form-control">
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Distrito</label>
@@ -72,40 +79,9 @@
                                                         </c:forEach>
                                                     </select>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group form-group-default">
-                                                    <label>DNI</label>
-                                                    <input required name="addDni" type="text" class="form-control">
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                    <label>Teléfono</label>
-                                                    <input required name="addTelefono" type="text" class="form-control">
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                    <label>Teléfono de emergencia</label>
-                                                    <input required name="addTelefonoEmergencia" type="text" class="form-control">
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                    <label>Email</label>
-                                                    <input required name="addEmail" type="email" class="form-control">
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                    <label>Password</label>
-                                                    <input required name="addPassword" type="password" class="form-control">
-                                                </div>
-                                                <!--                                                <div class="form-group form-group-default">
-                                                                                                    <label>Turno</label>
-                                                                                                    <select class="form-control" name="addTurno">
-                                                                                                        <option value="1">Mañana</option>
-                                                                                                        <option value="2">Tarde</option>
-                                                                                                        <option value="3">Noche</option>
-                                                                                                    </select>
-                                                                                                </div>
-                                                -->
                                                 <div class="form-group form-group-default">
                                                     <label>Rol</label>
-                                                    <select class="form-control" name="addTdPersonaId">
+                                                    <select class="form-control" name="addRolId">
                                                         <c:forEach var="temp" items="${mi_lista_de_roles}">
                                                             <c:choose>
                                                                 <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
@@ -121,6 +97,46 @@
 
                                                     </select>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group form-group-default">
+                                                    <label>Teléfono</label>
+                                                    <input required name="addTelefono" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Teléfono de emergencia</label>
+                                                    <input name="addTelefonoEmergencia" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>DNI</label>
+                                                    <input required name="addDni" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Fecha de nacimiento</label>
+                                                    <input required name="addFecha" type="date" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Email</label>
+                                                    <input required name="addEmail" type="email" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Password</label>
+                                                    <input required name="addPassword" type="password" class="form-control" id="addPassword"  onkeyup='check();'>
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Repita el Password
+                                                    <input required name="addPassword2" type="password" class="form-control" id="addPassword2"  onkeyup='check();'>
+                                                    <span id='message'></span></label>
+                                                </div>
+                                                <!--                                                <div class="form-group form-group-default">
+                                                                                                    <label>Turno</label>
+                                                                                                    <select class="form-control" name="addTurno">
+                                                                                                        <option value="1">Mañana</option>
+                                                                                                        <option value="2">Tarde</option>
+                                                                                                        <option value="3">Noche</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                -->
                                             </div>
                                             <div class="col-md-6">
                                                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -427,6 +443,16 @@
             $('#add-row').DataTable({
                 "pageLength": 5,
             });
+
+            var check = function () {
+                if (document.getElementById('addPassword').value === document.getElementById('addPassword2').value) {
+                    document.getElementById('message').style.color = 'green';
+                    document.getElementById('message').innerHTML = 'Coincide';
+                } else {
+                    document.getElementById('message').style.color = 'red';
+                    document.getElementById('message').innerHTML = 'No coincide';
+                }
+            };
         </script>
 
     </jsp:attribute>

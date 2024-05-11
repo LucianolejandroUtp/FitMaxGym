@@ -19,7 +19,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jasypt.util.password.BasicPasswordEncryptor;
 
 /**
  *
@@ -39,42 +44,85 @@ public class UserCreateServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            System.out.println("Bandera UserCreateServlet");
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+            System.out.println(request.getParameter("addNombres"));
+            System.out.println(request.getParameter("addApellidos"));
+            System.out.println(request.getParameter("addGenero"));
+            System.out.println(request.getParameter("addDireccion"));
+            System.out.println(request.getParameter("addReferencia"));
+            System.out.println(request.getParameter("addTelefono"));
+            System.out.println(request.getParameter("addTelefonoEmergencia"));
+            System.out.println(request.getParameter("addDni"));
+            System.out.println(request.getParameter("addFecha"));
+            System.out.println(request.getParameter("addEmail"));
+            System.out.println(request.getParameter("addPassword"));
+            System.out.println(request.getParameter("addPassword2"));
+            System.out.println(request.getParameter("addDistritoId"));
+            System.out.println(request.getParameter("addRolId"));
 
-        UsersJpaController jpa_users = new UsersJpaController(emf);
-        RolesJpaController jpa_roles = new RolesJpaController(emf);
-        DistritosJpaController jpa_distritos = new DistritosJpaController(emf);
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
 
-        Users mi_usuario = new Users();
-        
-        Roles mi_rol = jpa_roles.findRoles(Long.valueOf(1));
-        Distritos mi_distrito = jpa_distritos.findDistritos(Long.valueOf(9));
-        
-        System.out.println(mi_rol.getDescripcion());
-        System.out.println(mi_distrito.getDescripcion());;
-        
+            UsersJpaController jpa_user = new UsersJpaController(emf);
+            RolesJpaController jpa_rol = new RolesJpaController(emf);
+            DistritosJpaController jpa_distrito = new DistritosJpaController(emf);
 
-        Date dt = new Date();
-        Timestamp ts = new Timestamp(dt.getTime());
-        System.out.println(ts);
+            Users mi_usuario = new Users();
+
+            Distritos mi_distrito = jpa_distrito.findDistritos(Long.valueOf(request.getParameter("addDistritoId")));
+            Roles mi_rol = jpa_rol.findRoles(Long.valueOf(request.getParameter("addRolId")));
+            
+            String contrasenia, contrasenia2, contraseniaok = null;
+            BasicPasswordEncryptor bpe = new BasicPasswordEncryptor();
+
+            System.out.println(mi_rol.getDescripcion());
+            System.out.println(mi_distrito.getDescripcion());
+
+            SimpleDateFormat sdf_fecha = new SimpleDateFormat("yyyy-MM-dd");
+            Date date_fecha = sdf_fecha.parse(request.getParameter("addFecha"));
+            Date dt = new Date();
+            Timestamp ts = new Timestamp(dt.getTime());
+            System.out.println(ts);
+            
+            contrasenia = String.valueOf(request.getParameter("addPassword"));
+            contrasenia2 = String.valueOf(request.getParameter("addPassword2"));
+            
+            
+            if (contrasenia.equalsIgnoreCase(contrasenia2)) {
+                System.out.println("Bandera: Password SI coinciden");
+                contraseniaok = contrasenia;
+                mi_usuario.setPassword(bpe.encryptPassword(String.valueOf(contraseniaok)));
+            }
 
 //        mi_usuario.setId(Long.valueOf(100));
-        mi_usuario.setNombres("Nombre de prueba");
-        mi_usuario.setApellidos("Apellido de prueba");
-        mi_usuario.setDni("34567893");
-        mi_usuario.setEmail("email@prueba.com3");
-        mi_usuario.setPassword("123456");
-        mi_usuario.setEstado("ACTIVO");
-        mi_usuario.setCreatedAt(ts);
-        mi_usuario.setUpdatedAt(ts);
-        
-        mi_usuario.setRolesId(mi_rol);
-        mi_usuario.setDistritosId(mi_distrito);
+            mi_usuario.setUniqueId(String.valueOf(java.util.UUID.randomUUID()));
+            mi_usuario.setNombres(request.getParameter("addNombres"));
+            mi_usuario.setApellidos(request.getParameter("addApellidos"));
+            mi_usuario.setGenero(request.getParameter("addGenero"));
+            mi_usuario.setDireccion(request.getParameter("addDireccion"));
+            mi_usuario.setReferencia(request.getParameter("addReferencia"));
+            mi_usuario.setTelefono(request.getParameter("addTelefono"));
+            mi_usuario.setTelefonoEmergencia(request.getParameter("addTelefonoEmergencia"));
+            mi_usuario.setDni(request.getParameter("addDni"));
+            mi_usuario.setFechaNacimiento(date_fecha);
+            mi_usuario.setEmail(request.getParameter("addEmail"));
+//            mi_usuario.setPassword(request.getParameter("addPassword"));
+            mi_usuario.setEstado("ACTIVO");
+//            mi_usuario.setCreatedAt(ts);
+//            mi_usuario.setUpdatedAt(ts);
 
-        jpa_users.create(mi_usuario);
+            mi_usuario.setDistritosId(mi_distrito);
+            mi_usuario.setRolesId(mi_rol);
 
+            jpa_user.create(mi_usuario);
+
+            UserListServlet call = new UserListServlet();
+            call.processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(UserCreateServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
