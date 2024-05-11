@@ -142,9 +142,9 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="PersonaListServlet">
+                                        <a href="UserListServlet">
                                             <i class="fas fa-user"></i>
-                                            <p>Persona</p>
+                                            <p>Usuarios</p>
                                         </a>
                                     </li>
                                     <!--                  <li class="nav-item">
