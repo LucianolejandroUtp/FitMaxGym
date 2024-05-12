@@ -95,16 +95,27 @@ public class UserCreateServlet extends HttpServlet {
                 contraseniaok = contrasenia;
                 mi_usuario.setPassword(bpe.encryptPassword(String.valueOf(contraseniaok)));
             }
-
+            if (request.getParameter("addReferencia").equalsIgnoreCase("")) {
+                mi_usuario.setReferencia("Ninguna");
+            } else {
+                mi_usuario.setReferencia(request.getParameter("addReferencia"));
+            }
+            if (request.getParameter("addTelefonoEmergencia").equalsIgnoreCase("")) {
+                mi_usuario.setTelefonoEmergencia("Ninguna");
+            } else {
+                mi_usuario.setTelefonoEmergencia(request.getParameter("addTelefonoEmergencia"));
+            }
+            
+            
 //        mi_usuario.setId(Long.valueOf(100));
             mi_usuario.setUniqueId(String.valueOf(java.util.UUID.randomUUID()));
             mi_usuario.setNombres(request.getParameter("addNombres"));
             mi_usuario.setApellidos(request.getParameter("addApellidos"));
             mi_usuario.setGenero(request.getParameter("addGenero"));
             mi_usuario.setDireccion(request.getParameter("addDireccion"));
-            mi_usuario.setReferencia(request.getParameter("addReferencia"));
+//            mi_usuario.setReferencia(request.getParameter("addReferencia"));
             mi_usuario.setTelefono(request.getParameter("addTelefono"));
-            mi_usuario.setTelefonoEmergencia(request.getParameter("addTelefonoEmergencia"));
+//            mi_usuario.setTelefonoEmergencia(request.getParameter("addTelefonoEmergencia"));
             mi_usuario.setDni(request.getParameter("addDni"));
             mi_usuario.setFechaNacimiento(date_fecha);
             mi_usuario.setEmail(request.getParameter("addEmail"));
