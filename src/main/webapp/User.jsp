@@ -121,12 +121,12 @@
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Password</label>
-                                                    <input required name="addPassword" type="password" class="form-control" id="addPassword"  onkeyup='check();'>
+                                                    <input required name="addPassword" type="password" class="form-control" id="addPassword" onkeyup='check();'>
                                                 </div>
                                                 <div class="form-group form-group-default">
-                                                    <label>Repita el Password
-                                                    <input required name="addPassword2" type="password" class="form-control" id="addPassword2"  onkeyup='check();'>
-                                                    <span id='message'></span></label>
+                                                    <label>Repita el Password</label>
+                                                    <input required name="addPassword2" type="password" class="form-control" id="addPassword2" onkeyup='check();'>
+                                                    <span id='message'></span>
                                                 </div>
                                                 <!--                                                <div class="form-group form-group-default">
                                                                                                     <label>Turno</label>

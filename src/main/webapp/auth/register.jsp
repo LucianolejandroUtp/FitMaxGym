@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div class="input-group mb-3">
-                            <input required name="addPassword" type="password" class="form-control" placeholder="Contraseña">
+                            <input required name="addPassword" id="addPassword" type="password" class="form-control" onkeyup='check();' placeholder="Contraseña">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -129,10 +129,11 @@
                             </div>
                         </div>
                         <div class="input-group mb-3">
-                            <input required name = "addPassword2" type="password" class="form-control" placeholder="Repita la contraseña">
+                            <input required name ="addPassword2" id="addPassword2" type="password" class="form-control" onkeyup='check();' placeholder="Repita la contraseña">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span id='message'></span>    
+                                    <!--<span class="fas fa-lock"></span>-->
                                 </div>
                             </div>
                         </div>
@@ -167,5 +168,18 @@
         <script src="../assets/auth/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- AdminLTE App -->
         <script src="../assets/auth/dist/js/adminlte.min.js"></script>
+
+        <script>
+
+                                var check = function () {
+                                    if (document.getElementById('addPassword').value === document.getElementById('addPassword2').value) {
+                                        document.getElementById('message').style.color = 'green';
+                                        document.getElementById('message').innerHTML = 'Coincide';
+                                    } else {
+                                        document.getElementById('message').style.color = 'red';
+                                        document.getElementById('message').innerHTML = 'No coincide';
+                                    }
+                                };
+        </script>
     </body>
 </html>
