@@ -72,12 +72,13 @@ public class UserCreateServlet extends HttpServlet {
             Users mi_usuario = new Users();
 
             Distritos mi_distrito = jpa_distrito.findDistritos(Long.valueOf(request.getParameter("addDistritoId")));
-            Roles mi_rol = jpa_rol.findRoles(Long.valueOf(request.getParameter("addRolId")));
+//            Roles mi_rol = jpa_rol.findRoles(Long.valueOf(request.getParameter("addRolId")));
+            Roles mi_rol = new Roles();
             
             String contrasenia, contrasenia2, contraseniaok = null;
             BasicPasswordEncryptor bpe = new BasicPasswordEncryptor();
 
-            System.out.println(mi_rol.getDescripcion());
+//            System.out.println(mi_rol.getDescripcion());
             System.out.println(mi_distrito.getDescripcion());
 
             SimpleDateFormat sdf_fecha = new SimpleDateFormat("yyyy-MM-dd");
@@ -90,6 +91,16 @@ public class UserCreateServlet extends HttpServlet {
             contrasenia2 = String.valueOf(request.getParameter("addPassword2"));
             
             
+            if (request.getParameter("addRolId") == null) {
+                System.out.println("Tipo de persona vacío, viene del register");
+                mi_rol = jpa_rol.findRoles(Long.valueOf(2));
+                System.out.println("El Tipo de Persona obtenido fue: " + mi_rol.getDescripcion() + " - " + mi_rol.getId());
+
+            } else {//Llenando datos  que únicamente se reciben desde Persona.jsp
+//      Obteniendo el Tipo dePpersona en base al Id obtenido de la vista
+                mi_rol = jpa_rol.findRoles(Long.valueOf(request.getParameter("addRolId")));
+                System.out.println("El Tipo de Persona obtenido fue: " + mi_rol.getDescripcion() + " - " + mi_rol.getId());
+            }
             if (contrasenia.equalsIgnoreCase(contrasenia2)) {
                 System.out.println("Bandera: Password SI coinciden");
                 contraseniaok = contrasenia;
@@ -105,6 +116,12 @@ public class UserCreateServlet extends HttpServlet {
             } else {
                 mi_usuario.setTelefonoEmergencia(request.getParameter("addTelefonoEmergencia"));
             }
+            if (request.getParameter("addFecha").equalsIgnoreCase("")) {
+                mi_usuario.setReferencia("Ninguna");
+            } else {
+                mi_usuario.setReferencia(request.getParameter("addReferencia"));
+            mi_usuario.setFechaNacimiento(date_fecha);
+            }
             
             
 //        mi_usuario.setId(Long.valueOf(100));
@@ -117,7 +134,6 @@ public class UserCreateServlet extends HttpServlet {
             mi_usuario.setTelefono(request.getParameter("addTelefono"));
 //            mi_usuario.setTelefonoEmergencia(request.getParameter("addTelefonoEmergencia"));
             mi_usuario.setDni(request.getParameter("addDni"));
-            mi_usuario.setFechaNacimiento(date_fecha);
             mi_usuario.setEmail(request.getParameter("addEmail"));
 //            mi_usuario.setPassword(request.getParameter("addPassword"));
             mi_usuario.setEstado("ACTIVO");

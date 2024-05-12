@@ -30,7 +30,7 @@
                 <div class="card-body register-card-body">
                     <p class="login-box-msg">Registrar un nuevo miembro</p>
 
-                    <form action="../PersonaCreateServlet" method="post">
+                    <form action="../UserCreateServlet" method="post">
                         <div class="input-group mb-3">
                             <input required name="addNombres" type="text" class="form-control" placeholder="Nombres">
                             <div class="input-group-append">
@@ -47,16 +47,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group form-group-default">
+                            <!--<label>Género</label>-->
+                            <select class="form-control" name="addGenero">
+                                <option value="1">MASCULINO</option>
+                                <option value="2">FEMENINO</option>
+                            </select>
+                        </div>
                         <div class="input-group mb-3">
-                            <input required name="addDni" type="text" class="form-control" placeholder="DNI">
+                            <input required name="addTelefono" type="text" class="form-control" placeholder="Teléfono">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-check"></span>
+                                    <span class="fas fa-phone"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="input-group mb-3">
-                            <input required name="addTelefono" type="text" class="form-control" placeholder="Teléfono">
+                            <input required name="addTelefonoEmergencia" type="text" class="form-control" placeholder="Teléfono de emergencia">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-phone"></span>
@@ -79,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="form-group form-group-default">
                             <select class="form-control" name="addDistritoId">
                                 <option value="2">Alto Selva Alegre</option>
                                 <option value="1">Arequipa</option>
@@ -111,6 +118,22 @@
                                 <option value="28">Yarabamba</option>
                                 <option value="29">Yura</option>
                             </select>
+                        </div>
+                        <div class="form-group form-group-default">
+                            <input required name="addFecha" type="date" class="form-control" placeholder="Fecha">
+                            <div class="input-group-append">
+                                <!--<div class="input-group-text">
+                                    <span class="fas fa-user-check"></span>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input required name="addDni" type="text" class="form-control" placeholder="DNI">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user-check"></span>
+                                </div>
+                            </div>
                         </div>
                         <div class="input-group mb-3">
                             <input required name="addEmail" type="email" class="form-control" placeholder="Email">
