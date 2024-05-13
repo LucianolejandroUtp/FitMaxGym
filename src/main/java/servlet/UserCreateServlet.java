@@ -74,7 +74,7 @@ public class UserCreateServlet extends HttpServlet {
             Distritos mi_distrito = jpa_distrito.findDistritos(Long.valueOf(request.getParameter("addDistritoId")));
 //            Roles mi_rol = jpa_rol.findRoles(Long.valueOf(request.getParameter("addRolId")));
             Roles mi_rol = new Roles();
-            
+
             String contrasenia, contrasenia2, contraseniaok = null;
             BasicPasswordEncryptor bpe = new BasicPasswordEncryptor();
 
@@ -86,11 +86,10 @@ public class UserCreateServlet extends HttpServlet {
             Date dt = new Date();
             Timestamp ts = new Timestamp(dt.getTime());
             System.out.println(ts);
-            
+
             contrasenia = String.valueOf(request.getParameter("addPassword"));
             contrasenia2 = String.valueOf(request.getParameter("addPassword2"));
-            
-            
+
             if (request.getParameter("addRolId") == null) {
                 System.out.println("Tipo de persona vacío, viene del register");
                 mi_rol = jpa_rol.findRoles(Long.valueOf(2));
@@ -120,10 +119,9 @@ public class UserCreateServlet extends HttpServlet {
                 mi_usuario.setReferencia("Ninguna");
             } else {
                 mi_usuario.setReferencia(request.getParameter("addReferencia"));
-            mi_usuario.setFechaNacimiento(date_fecha);
+                mi_usuario.setFechaNacimiento(date_fecha);
             }
-            
-            
+
 //        mi_usuario.setId(Long.valueOf(100));
             mi_usuario.setUniqueId(String.valueOf(java.util.UUID.randomUUID()));
             mi_usuario.setNombres(request.getParameter("addNombres"));
@@ -145,8 +143,15 @@ public class UserCreateServlet extends HttpServlet {
 
             jpa_user.create(mi_usuario);
 
-            UserListServlet call = new UserListServlet();
-            call.processRequest(request, response);
+            if (request.getParameter("addRolId") == null) {
+//                    request.getRequestDispatcher("/EmailRegistroPersonaServlet").include(request, response);
+                response.sendRedirect("auth/login.jsp");
+            } else {
+                //      Llamando al listALGO.jsp
+                UserListServlet call = new UserListServlet();
+                call.processRequest(request, response);
+            }
+
         } catch (ParseException ex) {
             Logger.getLogger(UserCreateServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
