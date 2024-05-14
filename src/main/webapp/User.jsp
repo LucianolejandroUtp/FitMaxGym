@@ -285,7 +285,9 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="PersonaDestroyServlet" method="post">
+                                                <form  action="GenericDestroyServlet" method="post">
+                                                        <input type="hidden" name="jpaController" value="Users">
+                                                        <input type="hidden" name="servletName" value="User">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">
