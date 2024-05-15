@@ -100,16 +100,16 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group form-group-default">
+                                                    <label>DNI</label>
+                                                    <input required name="addDni" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
                                                     <label>Teléfono</label>
                                                     <input required name="addTelefono" type="text" class="form-control">
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Teléfono de emergencia</label>
                                                     <input name="addTelefonoEmergencia" type="text" class="form-control">
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                    <label>DNI</label>
-                                                    <input required name="addDni" type="text" class="form-control">
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Fecha de nacimiento</label>
@@ -286,8 +286,8 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form  action="GenericDestroyServlet" method="post">
-                                                        <input type="hidden" name="jpaController" value="Users">
-                                                        <input type="hidden" name="servletName" value="User">
+                                                    <input type="hidden" name="jpaController" value="Users">
+                                                    <input type="hidden" name="servletName" value="User">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">
@@ -327,7 +327,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="PersonaEditServlet" method="post">
+                                                <form  action="UserEditServlet" method="post">
                                                     <div class="row ">
                                                         <div class="col-sm-6">
                                                             <div class="form-group form-group-default">
@@ -341,6 +341,13 @@
                                                             <div class="form-group form-group-default">
                                                                 <label>Apellidos</label>
                                                                 <input required name="editApellidos" type="text" class="form-control" value="${temp.apellidos }">
+                                                            </div>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Género</label>
+                                                                <select class="form-control" name="editGenero">
+                                                                    <option value="1">MASCULINO</option>
+                                                                    <option value="2">FEMENINO</option>
+                                                                </select>
                                                             </div>
                                                             <div class="form-group form-group-default">
                                                                 <label>Dirección</label>
@@ -358,6 +365,30 @@
                                                                     </c:forEach>
                                                                 </select>
                                                             </div>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Rol</label>
+                                                                <c:choose>
+                                                                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
+                                                                        <select class="form-control" name="editRolId">
+                                                                            <c:forEach var="tempEdit" items="${mi_lista_de_roles }">
+                                                                                <option value="${tempEdit.id }">${tempEdit.descripcion }</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </c:when>
+                                                                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('trabajador')}">
+                                                                        <select class="form-control" name="editRolId">
+                                                                            <c:forEach var="tempEdit" items="${mi_lista_de_roles }">
+                                                                                <c:if test="${tempEdit.descripcion.equalsIgnoreCase('cliente')}">
+                                                                                    <option value="${tempEdit.id }">${tempEdit.descripcion }</option>
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                    </c:when>
+                                                                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                                                        <input name="editRolId" type="text" class="form-control" value="${temp.rolesId.id}" readonly>
+                                                                    </c:when>
+                                                                </c:choose>
+                                                            </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="form-group form-group-default">
@@ -369,13 +400,26 @@
                                                                 <input required name="editTelefono" type="text" class="form-control" value="${temp.telefono }">
                                                             </div>
                                                             <div class="form-group form-group-default">
+                                                                <label>Teléfono de emergencia</label>
+                                                                <input name="editTelefonoEmergencia" type="text" class="form-control">
+                                                            </div>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Fecha de nacimiento</label>
+                                                                <input required name="editFecha" type="date" class="form-control">
+                                                            </div>
+                                                            <div class="form-group form-group-default">
                                                                 <label>Email</label>
                                                                 <input required name="editEmail" type="text" class="form-control" value="${temp.email }">
                                                             </div>
                                                             <div class="form-group form-group-default">
                                                                 <label>Password</label>
-                                                                <input name="editPassword" type="password" class="form-control">
+                                                                <input name="editPassword" type="password" class="form-control" id="editPassword" onkeyup='check();'>
                                                             </div>
+<!--                                                            <div class="form-group form-group-default">
+                                                                <label>Repita el Password</label>
+                                                                <input name="editPassword2" type="password" class="form-control" id="editPassword2" onkeyup='check();'>
+                                                                <span id='messageEdit'></span>
+                                                            </div>-->
 
                                                             <!--                                                            <div class="form-group form-group-default">
                                                                                                                             <label>Turno</label>
@@ -386,30 +430,6 @@
                                                                                                                             </select>
                                                                                                                         </div>
                                                             -->
-                                                            <div class="form-group form-group-default">
-                                                                <label>Tipo de Persona</label>
-                                                                <c:choose>
-                                                                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
-                                                                        <select class="form-control" name="editTdPersonaId">
-                                                                            <c:forEach var="tempEdit" items="${mi_lista_de_roles }">
-                                                                                <option value="${tempEdit.id }">${tempEdit.descripcion }</option>
-                                                                            </c:forEach>
-                                                                        </select>
-                                                                    </c:when>
-                                                                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('trabajador')}">
-                                                                        <select class="form-control" name="editTdPersonaId">
-                                                                            <c:forEach var="tempEdit" items="${mi_lista_de_roles }">
-                                                                                <c:if test="${tempEdit.descripcion.equalsIgnoreCase('cliente')}">
-                                                                                    <option value="${tempEdit.id }">${tempEdit.descripcion }</option>
-                                                                                </c:if>
-                                                                            </c:forEach>
-                                                                        </select>
-                                                                    </c:when>
-                                                                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('cliente')}">
-                                                                        <input name="editTdPersonaId" type="text" class="form-control" value="${temp.rolesId.id}" readonly>
-                                                                    </c:when>
-                                                                </c:choose>
-                                                            </div>
                                                             <div class="form-group form-group-default">
                                                                 <label>Estado</label>
                                                                 <select class="form-control" name="editEstado">
@@ -441,20 +461,29 @@
         <!-- Datatables -->
         <script src="assets/js/plugin/datatables/datatables.min.js"></script>
         <script>
-            // Add Row
-            $('#add-row').DataTable({
-                "pageLength": 5,
-            });
+                                                        // Add Row
+                                                        $('#add-row').DataTable({
+                                                            "pageLength": 5,
+                                                        });
 
-            var check = function () {
-                if (document.getElementById('addPassword').value === document.getElementById('addPassword2').value) {
-                    document.getElementById('message').style.color = 'green';
-                    document.getElementById('message').innerHTML = 'Coincide';
-                } else {
-                    document.getElementById('message').style.color = 'red';
-                    document.getElementById('message').innerHTML = 'No coincide';
-                }
-            };
+                                                        var check = function () {
+                                                            if (document.getElementById('addPassword').value === document.getElementById('addPassword2').value) {
+                                                                document.getElementById('message').style.color = 'green';
+                                                                document.getElementById('message').innerHTML = 'Coincide';
+                                                            } else {
+                                                                document.getElementById('message').style.color = 'red';
+                                                                document.getElementById('message').innerHTML = 'No coincide';
+                                                            }
+                                                        };
+                                                        var check = function () {
+                                                            if (document.getElementById('editPassword').value === document.getElementById('editPassword2').value) {
+                                                                document.getElementById('messageEdit').style.color = 'green';
+                                                                document.getElementById('messageEdit').innerHTML = 'Coincide';
+                                                            } else {
+                                                                document.getElementById('messageEdit').style.color = 'red';
+                                                                document.getElementById('messageEdit').innerHTML = 'No coincide';
+                                                            }
+                                                        };
         </script>
 
     </jsp:attribute>

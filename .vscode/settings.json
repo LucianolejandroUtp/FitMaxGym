@@ -2,6 +2,8 @@
     "conventionalCommits.scopes": [
         "Servlet",
         "Web Pages",
-        "Servlet plus Web Pages"
+        "Servlet plus Web Pages",
+        "dto",
+        "Anexos"
     ]
 }
