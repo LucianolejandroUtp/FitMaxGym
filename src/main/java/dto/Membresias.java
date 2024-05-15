@@ -65,8 +65,6 @@ public class Membresias implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
@@ -84,12 +82,11 @@ public class Membresias implements Serializable {
         this.id = id;
     }
 
-    public Membresias(Long id, String uniqueId, String estado, Date createdAt, Date updatedAt) {
+    public Membresias(Long id, String uniqueId, String estado, Date createdAt) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.estado = estado;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
