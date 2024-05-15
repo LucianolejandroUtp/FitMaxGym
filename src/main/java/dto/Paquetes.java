@@ -71,8 +71,6 @@ public class Paquetes implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
@@ -86,7 +84,7 @@ public class Paquetes implements Serializable {
         this.id = id;
     }
 
-    public Paquetes(Long id, String uniqueId, String nombre, BigDecimal precio, int duracion, String estado, Date createdAt, Date updatedAt) {
+    public Paquetes(Long id, String uniqueId, String nombre, BigDecimal precio, int duracion, String estado, Date createdAt) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.nombre = nombre;
@@ -94,7 +92,6 @@ public class Paquetes implements Serializable {
         this.duracion = duracion;
         this.estado = estado;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {

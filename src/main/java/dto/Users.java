@@ -79,17 +79,11 @@ public class Users implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "email")
     private String email;
-    @Column(name = "email_verified_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date emailVerifiedAt;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
-    @Size(max = 100)
-    @Column(name = "remember_token")
-    private String rememberToken;
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaNacimiento;
@@ -103,8 +97,6 @@ public class Users implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
@@ -124,7 +116,7 @@ public class Users implements Serializable {
         this.id = id;
     }
 
-    public Users(Long id, String uniqueId, String nombres, String dni, String email, String password, String estado, Date createdAt, Date updatedAt) {
+    public Users(Long id, String uniqueId, String nombres, String dni, String email, String password, String estado, Date createdAt) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.nombres = nombres;
@@ -133,7 +125,6 @@ public class Users implements Serializable {
         this.password = password;
         this.estado = estado;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -224,28 +215,12 @@ public class Users implements Serializable {
         this.email = email;
     }
 
-    public Date getEmailVerifiedAt() {
-        return emailVerifiedAt;
-    }
-
-    public void setEmailVerifiedAt(Date emailVerifiedAt) {
-        this.emailVerifiedAt = emailVerifiedAt;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRememberToken() {
-        return rememberToken;
-    }
-
-    public void setRememberToken(String rememberToken) {
-        this.rememberToken = rememberToken;
     }
 
     public Date getFechaNacimiento() {

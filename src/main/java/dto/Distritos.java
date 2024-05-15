@@ -56,8 +56,6 @@ public class Distritos implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
@@ -71,12 +69,11 @@ public class Distritos implements Serializable {
         this.id = id;
     }
 
-    public Distritos(Long id, String uniqueId, String estado, Date createdAt, Date updatedAt) {
+    public Distritos(Long id, String uniqueId, String estado, Date createdAt) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.estado = estado;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
