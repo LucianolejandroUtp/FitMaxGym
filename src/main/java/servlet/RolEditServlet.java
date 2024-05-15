@@ -51,9 +51,9 @@ public class RolEditServlet extends HttpServlet {
             Roles oldObject;
 
 //      Lo relacionado a la fecha
-            Date dt = new Date();
-            Timestamp ts = new Timestamp(dt.getTime());
-            System.out.println(ts);
+//            Date dt = new Date();
+//            Timestamp ts = new Timestamp(dt.getTime());
+//            System.out.println(ts);
 
             //  Ahora necesitamos obtener el objeto a editar para chancar los nuevos valores encima
             oldObject = jpaRol.findRoles(Long.valueOf(request.getParameter("editId")));
@@ -67,7 +67,7 @@ public class RolEditServlet extends HttpServlet {
                 oldObject.setEstado(request.getParameter("editEstado"));
             }
 
-            oldObject.setUpdatedAt(ts);
+//            oldObject.setUpdatedAt(ts);
 //      oldObject_distrito.setDireccionCollection(mi_lista_de_Direcciones);
 
             System.out.println("El Rol actualizado es: "

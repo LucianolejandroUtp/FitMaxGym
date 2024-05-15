@@ -83,9 +83,9 @@ public class UserCreateServlet extends HttpServlet {
 
             SimpleDateFormat sdf_fecha = new SimpleDateFormat("yyyy-MM-dd");
             Date date_fecha = sdf_fecha.parse(request.getParameter("addFecha"));
-            Date dt = new Date();
-            Timestamp ts = new Timestamp(dt.getTime());
-            System.out.println(ts);
+//            Date dt = new Date();
+//            Timestamp ts = new Timestamp(dt.getTime());
+//            System.out.println(ts);
 
             contrasenia = String.valueOf(request.getParameter("addPassword"));
             contrasenia2 = String.valueOf(request.getParameter("addPassword2"));

@@ -49,9 +49,9 @@ public class DistritoEditServlet extends HttpServlet {
             Distritos oldObject;
 
 //      Lo relacionado a la fecha
-            Date dt = new Date();
-            Timestamp ts = new Timestamp(dt.getTime());
-            System.out.println(ts);
+//            Date dt = new Date();
+//            Timestamp ts = new Timestamp(dt.getTime());
+//            System.out.println(ts);
 
             //  Ahora necesitamos obtener el objeto a editar para chancar los nuevos valores encima
             oldObject = jpaDistrito.findDistritos(Long.valueOf(request.getParameter("editId")));
@@ -65,7 +65,7 @@ public class DistritoEditServlet extends HttpServlet {
                 oldObject.setEstado(request.getParameter("editEstado"));
             }
 
-            oldObject.setUpdatedAt(ts);
+//            oldObject.setUpdatedAt(ts);
 //      oldObject_distrito.setDireccionCollection(mi_lista_de_Direcciones);
 
             System.out.println("El Distrito actualizado es: "
