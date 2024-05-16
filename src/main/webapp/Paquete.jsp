@@ -42,12 +42,24 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form  action="CategoriaCreateServlet" method="post">
+                                    <form  action="PaqueteCreateServlet" method="post">
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group form-group-default">
                                                     <label>Nombre</label>
+                                                    <input required name="addNombre" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Descripción</label>
                                                     <input required name="addDescripcion" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Precio</label>
+                                                    <input required name="addPrecio" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Duración</label>
+                                                    <input required name="addDuracion" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -112,7 +124,7 @@
                                                     <span class="fw-mediumbold">
                                                         eliminar</span> 
                                                     <span class="fw-light">
-                                                        este departamento?
+                                                        este paquete?
                                                     </span>
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
