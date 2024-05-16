@@ -19,7 +19,6 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -52,11 +51,10 @@ public class Paquetes implements Serializable {
     @Size(max = 255)
     @Column(name = "descripcion")
     private String descripcion;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "precio")
-    private BigDecimal precio;
+    private int precio;
     @Basic(optional = false)
     @NotNull
     @Column(name = "duracion")
@@ -84,7 +82,7 @@ public class Paquetes implements Serializable {
         this.id = id;
     }
 
-    public Paquetes(Long id, String uniqueId, String nombre, BigDecimal precio, int duracion, String estado, Date createdAt) {
+    public Paquetes(Long id, String uniqueId, String nombre, int precio, int duracion, String estado, Date createdAt) {
         this.id = id;
         this.uniqueId = uniqueId;
         this.nombre = nombre;
@@ -126,11 +124,11 @@ public class Paquetes implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public BigDecimal getPrecio() {
+    public int getPrecio() {
         return precio;
     }
 
-    public void setPrecio(BigDecimal precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
     }
 
