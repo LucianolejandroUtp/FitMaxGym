@@ -178,7 +178,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="CategoriaEditServlet" method="post">
+                                                <form  action="PaqueteEditServlet" method="post">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">
@@ -187,7 +187,19 @@
                                                             </div>
                                                             <div class="form-group form-group-default">
                                                                 <label>Nombre</label>
+                                                                <input required name="editNombre" type="text" class="form-control" value="${tmpObj.nombre }">
+                                                            </div>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Descripción</label>
                                                                 <input required name="editDescripcion" type="text" class="form-control" value="${tmpObj.descripcion }">
+                                                            </div>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Precio</label>
+                                                                <input required name="editPrecio" type="text" class="form-control" value="${tmpObj.precio }">
+                                                            </div>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Duración</label>
+                                                                <input required name="editDuracion" type="text" class="form-control" value="${tmpObj.duracion }">
                                                             </div>
 
                                                             <div class="form-group form-group-default">
