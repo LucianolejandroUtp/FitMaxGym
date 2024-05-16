@@ -165,7 +165,7 @@
                                             <p>Distritos</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+<!--                                    <li class="nav-item">
                                         <a href="CitaListServlet">
                                             <i class="fas fa-handshake"></i>
                                             <p>Cita Programada</p>
@@ -182,7 +182,7 @@
                                             <i class="fas fa-receipt"></i>
                                             <p>Detalle Comprobante</p>
                                         </a>
-                                    </li>
+                                    </li>-->
                                     <li class="nav-item">
                                         <a href="CategoriaListServlet">
                                             <i class="fas fa-list"></i>
@@ -190,9 +190,9 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="ServicioListServlet">
+                                        <a href="PaqueteListServlet">
                                             <i class="fas fa-list"></i>
-                                            <p>Servicios</p>
+                                            <p>Paquetes</p>
                                         </a>
                                     </li>
                                 </ul>
