@@ -184,9 +184,9 @@
                                         </a>
                                     </li>-->
                                     <li class="nav-item">
-                                        <a href="CategoriaListServlet">
+                                        <a href="MembresiaListServlet">
                                             <i class="fas fa-list"></i>
-                                            <p>Categorías</p>
+                                            <p>Membresías</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
