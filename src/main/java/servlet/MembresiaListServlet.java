@@ -4,17 +4,16 @@
  */
 package servlet;
 
+import com.gym.fitmax.config.JpaConfig;
 import controlador.jpa.MembresiasJpaController;
 import dto.Membresias;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +22,21 @@ import java.util.List;
  */
 @WebServlet(name = "MembresiaListServlet", urlPatterns = {"/MembresiaListServlet"})
 public class MembresiaListServlet extends HttpServlet {
+
+    private EntityManagerFactory emf;
+    private MembresiasJpaController jpacMembresia;
+
+    @Override
+    public void init() throws ServletException {
+        System.out.println("Entrando a Servlet init");
+        emf = JpaConfig.getEntityManagerFactory();
+        jpacMembresia = new MembresiasJpaController(emf);
+    }
+    @Override
+    public void destroy() {
+        System.out.println("Entrando a Servlet destroy");
+        JpaConfig.closeEntityManagerFactory();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,28 +49,17 @@ public class MembresiaListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        System.out.println("Entrando a MembresiaListServlet processRequest");
+//        response.setContentType("text/html;charset=UTF-8");
 
-        System.out.println("Entrando a MembresiaListServlet");
-        try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+        List<Membresias> membresias = jpacMembresia.findMembresiasEntities();
 
-            MembresiasJpaController jpacMembresia = new MembresiasJpaController(emf);
-            List<Membresias> membresias = new ArrayList<>();
-
-//      System.out.println(jpacontroller_object.findDistritoEntities());
-            membresias = jpacMembresia.findMembresiasEntities();
-
-            for (Membresias mem : membresias) {
-                System.out.println(mem.getId() + " - " + mem.getPaquetesId().getNombre());
-            }
-
-            request.setAttribute("mi_lista_de_objetos", membresias);
-            request.getRequestDispatcher("Membresia.jsp").forward(request, response);
-        } catch (IOException | ServletException theException) {
-            System.out.println(theException);
+        for (Membresias obj : membresias) {
+            System.out.println(obj.getId() + " - " + obj.getPaquetesId().getNombre());
         }
 
+        request.setAttribute("mi_lista_de_objetos", membresias);
+        request.getRequestDispatcher("Membresia.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
