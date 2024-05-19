@@ -413,11 +413,11 @@
                                                             </div>
                                                             <div class="form-group form-group-default">
                                                                 <label>Password</label>
-                                                                <input name="editPassword" type="password" class="form-control" id="editPassword" onkeyup='check();'>
+                                                                <input name="editPassword" type="password" class="form-control" id="editPassword">
                                                             </div>
 <!--                                                            <div class="form-group form-group-default">
                                                                 <label>Repita el Password</label>
-                                                                <input name="editPassword2" type="password" class="form-control" id="editPassword2" onkeyup='check();'>
+                                                                <input name="editPassword2${temp.id}" type="password" class="form-control" id="editPassword2" onkeyup='check2();'>
                                                                 <span id='messageEdit'></span>
                                                             </div>-->
 
@@ -461,29 +461,19 @@
         <!-- Datatables -->
         <script src="assets/js/plugin/datatables/datatables.min.js"></script>
         <script>
-                                                        // Add Row
-                                                        $('#add-row').DataTable({
-                                                            "pageLength": 5,
-                                                        });
-
-                                                        var check = function () {
-                                                            if (document.getElementById('addPassword').value === document.getElementById('addPassword2').value) {
-                                                                document.getElementById('message').style.color = 'green';
-                                                                document.getElementById('message').innerHTML = 'Coincide';
-                                                            } else {
-                                                                document.getElementById('message').style.color = 'red';
-                                                                document.getElementById('message').innerHTML = 'No coincide';
-                                                            }
-                                                        };
-                                                        var check = function () {
-                                                            if (document.getElementById('editPassword').value === document.getElementById('editPassword2').value) {
-                                                                document.getElementById('messageEdit').style.color = 'green';
-                                                                document.getElementById('messageEdit').innerHTML = 'Coincide';
-                                                            } else {
-                                                                document.getElementById('messageEdit').style.color = 'red';
-                                                                document.getElementById('messageEdit').innerHTML = 'No coincide';
-                                                            }
-                                                        };
+                                                                    // Add Row
+                                                                    $('#add-row').DataTable({
+                                                                        "pageLength": 5,
+                                                                    });
+                                                                    var check = function () {
+                                                                        if (document.getElementById('addPassword').value === document.getElementById('addPassword2').value) {
+                                                                            document.getElementById('message').style.color = 'green';
+                                                                            document.getElementById('message').innerHTML = 'Coincide';
+                                                                        } else {
+                                                                            document.getElementById('message').style.color = 'red';
+                                                                            document.getElementById('message').innerHTML = 'No coincide';
+                                                                        }
+                                                                    };
         </script>
 
     </jsp:attribute>
