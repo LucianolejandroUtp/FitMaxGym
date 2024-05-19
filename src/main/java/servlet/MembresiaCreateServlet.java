@@ -18,14 +18,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Lucy
  */
-@WebServlet(name = "MembresiaListServlet", urlPatterns = {"/MembresiaListServlet"})
-public class MembresiaListServlet extends HttpServlet {
+@WebServlet(name = "MembresiaCreateServlet", urlPatterns = {"/MembresiaCreateServlet"})
+public class MembresiaCreateServlet extends HttpServlet {
 
     private EntityManagerFactory emf;
     private MembresiasJpaController jpacMembresia;
@@ -40,6 +45,7 @@ public class MembresiaListServlet extends HttpServlet {
         jpacUsuario = new UsersJpaController(emf);
         jpacPaquete = new PaquetesJpaController(emf);
     }
+
     @Override
     public void destroy() {
         System.out.println("Entrando a Servlet destroy");
@@ -57,21 +63,42 @@ public class MembresiaListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Entrando a MembresiaListServlet processRequest");
-//        response.setContentType("text/html;charset=UTF-8");
+        try {
+            System.out.println("Entrando a MembresiaCreateServlet processRequest");
+//Obteniendo todos los parámetros que recibimos de la vista; solo para saber con qué variables llegan
+            System.out.println(request.getParameterMap());
+            for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
+                for (String s : e.getValue()) {
+                    System.out.println("Key: " + e.getKey() + " ForValue: " + s);
+                }
+            }
+            Membresias membresia = new Membresias();
+            Users mi_usuario = jpacUsuario.findUsers(Long.valueOf(request.getParameter("addUsuarioId")));
+            Paquetes mi_paquete = jpacPaquete.findPaquetes(Long.valueOf(request.getParameter("addPaqueteId")));
 
-        List<Membresias> membresias = jpacMembresia.findMembresiasEntities();
-        List<Users> usuarios = jpacUsuario.findUsersEntities();
-        List<Paquetes> paquetes = jpacPaquete.findPaquetesEntities();
+            SimpleDateFormat sdf_fecha = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaInicio = sdf_fecha.parse(request.getParameter("addFechaInicio"));
+            Date fechaFin = sdf_fecha.parse(request.getParameter("addFechaFin"));
 
-        for (Membresias obj : membresias) {
-            System.out.println(obj.getId() + " - " + obj.getPaquetesId().getNombre());
+            membresia.setUniqueId(String.valueOf(java.util.UUID.randomUUID()));
+            membresia.setDescripcion(request.getParameter("addDescripcion"));
+            membresia.setFormaPago(request.getParameter("addFormaPago"));
+            membresia.setFechaInicio(fechaInicio);
+            membresia.setFechaFin(fechaFin);
+            membresia.setEstado("ACTIVO");
+
+            membresia.setUsersId(mi_usuario);
+            membresia.setPaquetesId(mi_paquete);
+
+            jpacMembresia.create(membresia);
+            response.sendRedirect("MembresiaListServlet");
+
+//      Llamando al listALGO.jsp
+//            MembresiaListServlet call = new MembresiaListServlet();
+//            call.processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(MembresiaCreateServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        request.setAttribute("mi_lista_de_objetos", membresias);
-        request.setAttribute("miListaDeUsuarios", usuarios);
-        request.setAttribute("miListaDePaquetes", paquetes);
-        request.getRequestDispatcher("Membresia.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

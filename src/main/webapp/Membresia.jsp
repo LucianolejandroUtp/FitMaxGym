@@ -9,7 +9,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="body_area">
-<!--        <c:set var="Dateee" value="<%=new java.util.Date()%>" />  -->
+        <!--        <c:set var="Dateee" value="<%=new java.util.Date()%>" />  -->
 
         <div class="col-md-12">
             <div class="card">
@@ -41,24 +41,42 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form  action="PaqueteCreateServlet" method="post">
+                                    <form  action="MembresiaCreateServlet" method="post">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <div class="form-group form-group-default">
-                                                    <label>Nombre</label>
-                                                    <input required name="addNombre" type="text" class="form-control">
-                                                </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Descripción</label>
                                                     <input required name="addDescripcion" type="text" class="form-control">
                                                 </div>
                                                 <div class="form-group form-group-default">
-                                                    <label>Precio</label>
-                                                    <input required name="addPrecio" type="text" class="form-control">
+                                                    <label>Forma de pago</label>
+                                                    <input required name="addFormaPago" type="text" class="form-control">
                                                 </div>
                                                 <div class="form-group form-group-default">
-                                                    <label>Duración</label>
-                                                    <input required name="addDuracion" type="text" class="form-control">
+                                                    <label>Fecha de Inicio</label>
+                                                    <input required name="addFechaInicio" type="date" class="form-control" id="addFechaInicio" onchange="handleDateChange(event)">
+                                                </div>
+
+                                                <!--<button onclick="sumarrr();">Sumar 5 días</button>-->
+                                                <div class="form-group form-group-default">
+                                                    <label>Fecha de Fin</label>
+                                                    <input name="addFechaFin" type="text" class="form-control" id="addFechaFin">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Usuario</label>
+                                                    <select class="form-control" name="addUsuarioId">
+                                                        <c:forEach var="tempU" items="${miListaDeUsuarios}">
+                                                            <option value="${tempU.id}">${tempU.apellidos},${tempU.nombres}:${tempU.dni}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Paquete</label>
+                                                    <select class="form-control" name="addPaqueteId">
+                                                        <c:forEach var="tempP" items="${miListaDePaquetes}">
+                                                            <option value="${tempP.id}">${tempP.nombre} - S/.${tempP.precio} - ${tempP.duracion} días</option>
+                                                        </c:forEach>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -136,15 +154,15 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form  action="GenericDestroyServlet" method="post">
-                                                    <input type="hidden" name="jpaController" value="Paquetes">
-                                                    <input type="hidden" name="servletName" value="Paquete">
+                                                    <input type="hidden" name="jpaController" value="Membresias">
+                                                    <input type="hidden" name="servletName" value="Membresia">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">
                                                                 <label>Id</label>
                                                                 <input name="destroyId" id="destroyId" type="text" class="form-control" value="${tmpObj.id}" readonly>
                                                             </div>
-                                                            
+
                                                             <div class="form-group form-group-default">
                                                                 <label>Descripción</label>
                                                                 <input name="destroyAlgo" id="destroyAlgo" type="text" class="form-control" value="${tmpObj.descripcion}" readonly>
@@ -185,7 +203,7 @@
                                                                 <label>Id</label>
                                                                 <input name="editId" type="text" class="form-control" value="${tmpObj.id }" readonly>
                                                             </div>
-                                                           
+
                                                             <div class="form-group form-group-default">
                                                                 <label>Descripción</label>
                                                                 <input required name="editDescripcion" type="text" class="form-control" value="${tmpObj.descripcion }">
@@ -233,17 +251,47 @@
                 </div>
             </div>
         </div>
-        
+
 
         <!--   Core JS Files   -->
         <script src="assets/js/core/jquery.3.2.1.min.js"></script>
         <!-- Datatables -->
         <script src="assets/js/plugin/datatables/datatables.min.js"></script>
         <script>
-            // Add Row
-            $('#add-row').DataTable({
-                "pageLength": 5,
-            });
+                                                        // Add Row
+                                                        $('#add-row').DataTable({
+                                                            "pageLength": 5,
+                                                        });
+                                                        console.log("bandera");
+                                                        function handleDateChange(event) {
+                                                            console.log("bandera2");
+                                                            const selectedDate = event.target.value;
+                                                            console.log('Fecha seleccionada:', selectedDate);
+                                                            // Obtener el valor de la fecha ingresada
+                                                            var fechaInicio = document.getElementById('addFechaInicio').value;
+                                                            // Comprobar si la fecha no está vacía
+                                                            if (fechaInicio) {
+                                                                // Crear un objeto Date a partir de la fecha ingresada
+                                                                var fecha = new Date(fechaInicio);
+                                                                // Sumar 5 días
+                                                                fecha.setDate(fecha.getDate() + 5);
+                                                                // Formatear la nueva fecha en formato 'YYYY-MM-DD'
+                                                                var anio = fecha.getFullYear();
+                                                                var mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                                                var dia = fecha.getDate().toString().padStart(2, '0');
+                                                                
+                                                                console.log("Datos: ", fecha, "año: ", anio, "Mes: ", mes, "Día: ", dia);
+                                                                var FechaFin = anio +"-"+mes + "-" +dia;
+                                                                            // Mostrar la nueva fecha en un campo de entrada
+                                                                            console.log("Fecha...", FechaFin);
+                                                                            document.getElementById('addFechaFin').value = FechaFin;
+                                                                        } else {
+                                                                            alert('Por favor, ingrese una fecha de inicio.');
+                                                                        }
+                                                                    }
+
+                                                                    ;
+
         </script>
 
     </jsp:attribute>
