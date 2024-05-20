@@ -60,19 +60,33 @@
                                                     <label>Usuario</label>
                                                     <select class="form-control" name="addUsuarioId">
                                                         <c:forEach var="tempU" items="${miListaDeUsuarios}">
-                                                            <option value="${tempU.id}">${tempU.apellidos},${tempU.nombres}:${tempU.dni}</option>
+                                                            <c:choose>
+                                                                <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
+                                                                    <option value="${tempU.id}">${tempU.apellidos},${tempU.nombres}:${tempU.dni}</option>
+                                                                </c:when>
+                                                                <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
+                                                                    <c:if test="${tempU.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                                                        <option value="${tempU.id}">${tempU.apellidos},${tempU.nombres}:${tempU.dni}</option>
+                                                                    </c:if>
+
+                                                                </c:when>
+                                                                <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                                                    <c:if test="${miPersonaObtenida.email.equals(tempU.email)}">
+                                                                        <option value="${tempU.id}" >${tempU.apellidos},${tempU.nombres}:${tempU.dni}</option>
+                                                                    </c:if>
+
+                                                                </c:when>
+                                                            </c:choose>
                                                         </c:forEach>
                                                     </select>
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Fecha de Inicio</label>
-                                                    <input required name="addFechaInicio" type="date" class="form-control" id="addFechaInicio" onchange="handleDateChange(event)">
+                                                    <input readonly="" name="addFechaInicio" type="text" class="form-control" id="addFechaInicio">
                                                 </div>
-
-                                                <!--<button onclick="sumarrr();">Sumar 5 días</button>-->
                                                 <div class="form-group form-group-default">
                                                     <label>Fecha de Fin</label>
-                                                    <input name="addFechaFin" type="text" class="form-control" id="addFechaFin">
+                                                    <input readonly="" name="addFechaFin" type="text" class="form-control" id="addFechaFin">
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Forma de pago</label>
@@ -105,32 +119,67 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="tmpObj" items="${mi_lista_de_objetos}">
-                                    <tr>
-                                        <td>${tmpObj.descripcion}</td>
-                                        <td>${tmpObj.fechaInicio}</td>
-                                        <td>${tmpObj.fechaFin}</td>
-                                        <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
-                                        <td>${tmpObj.paquetesId.nombre}</td>
-                                        <td>${tmpObj.formaPago}</td>
-                                        <!--                    <td>
-                                        <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
-                                      </td>
-                                      <td>
-                                        <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.updatedAt }"/>
-                                      </td>-->
-                                        <td>
-                                            <div class="form-button-action">
-                                                <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
-                                                        data-target="#${tmpObj.uniqueId}">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                                <button type="button" data-toggle="modal" class="btn btn-link btn-danger"
-                                                        data-target="#${tmpObj.id}${tmpObj.uniqueId}">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <c:choose>
+                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
+                                            <tr>
+                                                <td>${tmpObj.descripcion}</td>
+                                                <td>${tmpObj.fechaInicio}</td>
+                                                <td>${tmpObj.fechaFin}</td>
+                                                <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
+                                                <td>${tmpObj.paquetesId.nombre}</td>
+                                                <td>${tmpObj.formaPago}</td>
+                                                <!--                    <td>
+                                                <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
+                                              </td>
+                                              <td>
+                                                <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.updatedAt }"/>
+                                              </td>-->
+                                                <td>
+                                                    <div class="form-button-action">
+                                                        <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
+                                                                data-target="#${tmpObj.uniqueId}">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" data-toggle="modal" class="btn btn-link btn-danger"
+                                                                data-target="#${tmpObj.id}${tmpObj.uniqueId}">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:when>
+
+                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                            <c:if test="${miPersonaObtenida.email.equals(tmpObj.usersId.email)}">
+                                                <tr>
+                                                    <td>${tmpObj.descripcion}</td>
+                                                    <td>${tmpObj.fechaInicio}</td>
+                                                    <td>${tmpObj.fechaFin}</td>
+                                                    <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
+                                                    <td>${tmpObj.paquetesId.nombre}</td>
+                                                    <td>${tmpObj.formaPago}</td>
+                                                    <!--                    <td>
+                                                    <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
+                                                  </td>
+                                                  <td>
+                                                    <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.updatedAt }"/>
+                                                  </td>-->
+                                                    <td>
+                                                        <div class="form-button-action">
+                                                            <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
+                                                                    data-target="#${tmpObj.uniqueId}">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button type="button" data-toggle="modal" class="btn btn-link btn-danger"
+                                                                    data-target="#${tmpObj.id}${tmpObj.uniqueId}">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:when>
+                                    </c:choose>
 
 
                                     <!-- Modal Eliminar -->
@@ -258,37 +307,48 @@
         <!-- Datatables -->
         <script src="assets/js/plugin/datatables/datatables.min.js"></script>
         <script>
-                                                        // Add Row
-                                                        $('#add-row').DataTable({
-                                                            "pageLength": 5,
-                                                        });
-                                                        function handleDateChange(event) {
-                                                            const selectedDate = event.target.value;
-                                                            const selectElement = document.getElementById('paquetesSelect');
-                                                            const selectedOption = selectElement.options[selectElement.selectedIndex];
-                                                            const duracion = parseInt(selectedOption.getAttribute('data-duracion'));
-                                                            console.log('Fecha seleccionada:', selectedDate);
-                                                            console.log("Duración: ", duracion)
-                                                            // Obtener el valor de la fecha ingresada
-                                                            var fechaInicio = document.getElementById('addFechaInicio').value;
-                                                            // Comprobar si la fecha no está vacía
-                                                            if (fechaInicio) {
-                                                                // Crear un objeto Date a partir de la fecha ingresada
-                                                                var fecha = new Date(fechaInicio);
-                                                                // Sumar 5 días
-                                                                fecha.setDate(fecha.getDate() + duracion);
-                                                                // Formatear la nueva fecha en formato 'YYYY-MM-DD'
-                                                                var anio = fecha.getFullYear();
-                                                                var mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-                                                                var dia = fecha.getDate().toString().padStart(2, '0');
+            // Add Row
+            $('#add-row').DataTable({
+                "pageLength": 5,
+            });
 
-                                                                var FechaFin = anio + "-" + mes + "-" + dia;
-                                                                // Mostrar la nueva fecha en un campo de entrada
-                                                                document.getElementById('addFechaFin').value = FechaFin;
-                                                            } else {
-                                                                alert('Por favor, ingrese una fecha de inicio.');
-                                                            }
-                                                        }
+            document.addEventListener('DOMContentLoaded', (event) => {
+                const selectElementPaquete = document.getElementById('paquetesSelect');
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
+                const day = String(today.getDate()).padStart(2, '0');
+
+                console.log("Fecha actual:", year, "-", month, "-", day);
+                document.getElementById('addFechaInicio').value = year + "-" + month + "-" + day;
+
+                // Añadir un event listener para el evento 'change'
+                selectElementPaquete.addEventListener('change', () => {
+                    const selectElement = document.getElementById('paquetesSelect');
+                    const selectedOption = selectElement.options[selectElement.selectedIndex];
+                    const duracion = parseInt(selectedOption.getAttribute('data-duracion'));
+//                  console.log('Fecha seleccionada:', selectedDate);
+                    console.log("Duración: ", duracion)
+                    // Obtener el valor de la fecha ingresada
+                    var fechaInicio = document.getElementById('addFechaInicio').value;
+                    // Comprobar si la fecha no está vacía
+                    if (fechaInicio) {
+                        // Crear un objeto Date a partir de la fecha ingresada
+                        var fecha = new Date(fechaInicio);
+                        // Sumar días
+                        fecha.setDate(fecha.getDate() + duracion);
+                        // Formatear la nueva fecha en formato 'YYYY-MM-DD'
+                        var anio = fecha.getFullYear();
+                        var mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                        var dia = fecha.getDate().toString().padStart(2, '0');
+
+                        // Mostrar la nueva fecha en un campo de entrada
+                        document.getElementById('addFechaFin').value = anio + "-" + mes + "-" + dia;
+                    } else {
+                        alert('Por favor, ingrese una fecha de inicio.');
+                    }
+                });
+            });
         </script>
 
     </jsp:attribute>

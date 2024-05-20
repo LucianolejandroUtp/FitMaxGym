@@ -21,6 +21,13 @@
                                     Añadir Usuario
                                 </button>
                             </c:when>
+                            
+                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
+                                <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                                    <i class="fa fa-plus"></i>
+                                    Añadir Usuario
+                                </button>
+                            </c:when>
                         </c:choose>
 
                     </div>
@@ -87,7 +94,7 @@
                                                                 <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
                                                                     <option value="${temp.id}">${temp.descripcion }</option>
                                                                 </c:when>
-                                                                <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('trabajador')}">
+                                                                <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
                                                                     <c:if test="${temp.descripcion.equalsIgnoreCase('cliente')}">
                                                                         <option value="${temp.id }">${temp.descripcion }</option>
                                                                     </c:if>
@@ -200,7 +207,7 @@
                                                 </td>
                                             </tr>
                                         </c:when>
-                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('trabajador')}">
+                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
                                             <c:if test="${temp.rolesId.descripcion.equalsIgnoreCase('cliente')}">
                                                 <tr>
                                                     <td>
@@ -233,7 +240,7 @@
                                                 </tr>
                                             </c:if>
                                         </c:when>
-                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                <%--        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
                                             <c:if test="${temp.email.equalsIgnoreCase(miPersonaObtenida.email)}">
                                                 <tr>
                                                     <td>
@@ -265,7 +272,7 @@
                                                     </td>
                                                 </tr>
                                             </c:if>
-                                        </c:when>
+                                        </c:when>--%>
                                     </c:choose>
 
 
@@ -375,7 +382,7 @@
                                                                             </c:forEach>
                                                                         </select>
                                                                     </c:when>
-                                                                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('trabajador')}">
+                                                                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
                                                                         <select class="form-control" name="editRolId">
                                                                             <c:forEach var="tempEdit" items="${mi_lista_de_roles }">
                                                                                 <c:if test="${tempEdit.descripcion.equalsIgnoreCase('cliente')}">

@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="input-group mb-3">
-                            <input required name="addTelefonoEmergencia" type="text" class="form-control" placeholder="Teléfono de emergencia">
+                            <input name="addTelefonoEmergencia" type="text" class="form-control" placeholder="Teléfono de emergencia">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-phone"></span>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <div class="input-group mb-3">
-                            <input required name="addReferencia" type="text" class="form-control" placeholder="Referencia">
+                            <input name="addReferencia" type="text" class="form-control" placeholder="Referencia">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-map-marker-alt"></span>
