@@ -4,6 +4,10 @@
  */
 package servlet;
 
+import com.gym.fitmax.config.JpaConfig;
+import controlador.jpa.PaquetesJpaController;
+import dto.Paquetes;
+import jakarta.persistence.EntityManagerFactory;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,48 +15,40 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
-/**
- *
- * @author Lucy
- */
-@WebServlet(name = "UserLogoutServlet", urlPatterns = {"/UserLogoutServlet"})
-public class UserLogoutServlet extends HttpServlet {
+@WebServlet(name = "IndexServlet", urlPatterns = {"/IndexServlet"})
+public class IndexServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private EntityManagerFactory emf;
+    private PaquetesJpaController jpacPaquete;
+//    private UsersJpaController jpacUsuario;
+//    private PaquetesJpaController jpacPaquete;
+
+    @Override
+    public void init() throws ServletException {
+        System.out.println("Entrando a Servlet init");
+        emf = JpaConfig.getEntityManagerFactory();
+        jpacPaquete = new PaquetesJpaController(emf);
+//        jpacUsuario = new UsersJpaController(emf);
+//        jpacPaquete = new PaquetesJpaController(emf);
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("Entrando a Servlet destroy");
+        JpaConfig.closeEntityManagerFactory();
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        System.out.println("Entrando al IndexServlet");
+        
+        List<Paquetes> paquetes = jpacPaquete.findPaquetesEntities();
+        HttpSession sesion = request.getSession();
 
-        System.out.println("Entrando a PersonaLogoutServlet");
-        try {
-            HttpSession sesion = request.getSession();
-//      Persona miPersona = new Persona();
-//      TipoPersona miTdP = new TipoPersona();
-//      miTdP.setDescripcion("");
-//      
-//      miPersona =  (Persona)sesion.getAttribute("miPersonaObtenida");
-
-//      miPersona.setTipoPersonaId(miTdP);
-            sesion.invalidate();
-//      sesion.removeAttribute("miPersonaObtenida");
-//      request.getSession(false).invalidate();
-//    sesion = request.getSession(true);
-//      response.sendRedirect("index.jsp");
-            
-            request.getRequestDispatcher("IndexServlet").forward(request, response);
-
-        } catch (IOException theException) {
-            System.out.println(theException);
-        }
+        sesion.setAttribute("listaDePaquetes", paquetes);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
 
     }
 

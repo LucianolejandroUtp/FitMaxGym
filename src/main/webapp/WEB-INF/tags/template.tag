@@ -60,7 +60,7 @@
                     <!-- Logo Header -->
                     <div class="logo-header" data-background-color="orange">
 
-                        <a href="index.jsp" class="logo">
+                        <a href="IndexServlet" class="logo">
                             <img src="assets/img/Fitmax.png" width="70%" height="70%" alt="navbar brand" class="navbar-brand">
                         </a>
                         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
