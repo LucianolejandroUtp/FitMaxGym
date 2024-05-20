@@ -9,8 +9,6 @@
     </jsp:attribute>
 
     <jsp:attribute name="body_area">
-        <!--        <c:set var="Dateee" value="<%=new java.util.Date()%>" />  -->
-
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -45,18 +43,6 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group form-group-default">
-                                                    <label>Descripción</label>
-                                                    <input required name="addDescripcion" type="text" class="form-control">
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                    <label>Paquete</label>
-                                                    <select class="form-control" name="addPaqueteId" id="paquetesSelect">
-                                                        <c:forEach var="tempP" items="${miListaDePaquetes}">
-                                                            <option data-duracion="${tempP.duracion}" value="${tempP.id}">${tempP.nombre} - S/.${tempP.precio} - ${tempP.duracion} días</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group form-group-default">
                                                     <label>Usuario</label>
                                                     <select class="form-control" name="addUsuarioId">
                                                         <c:forEach var="tempU" items="${miListaDeUsuarios}">
@@ -81,6 +67,14 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group form-group-default">
+                                                    <label>Paquete</label>
+                                                    <select class="form-control" name="addPaqueteId" id="paquetesSelect">
+                                                        <c:forEach var="tempP" items="${miListaDePaquetes}">
+                                                            <option data-duracion="${tempP.duracion}" value="${tempP.id}">${tempP.nombre} - S/.${tempP.precio} - ${tempP.duracion} días</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group form-group-default">
                                                     <label>Fecha de Inicio</label>
                                                     <input readonly="" name="addFechaInicio" type="text" class="form-control" id="addFechaInicio">
                                                 </div>
@@ -91,6 +85,10 @@
                                                 <div class="form-group form-group-default">
                                                     <label>Forma de pago</label>
                                                     <input required name="addFormaPago" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Observación</label>
+                                                    <input required name="addDescripcion" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -108,12 +106,12 @@
                         <table id="add-row" class="display table table-striped table-hover" >
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Fecha inicio</th>
-                                    <th>Fecha fin</th>
                                     <th>Usuario</th>
                                     <th>Paquete</th>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
                                     <th>Forma de pago</th>
+                                    <th>Observación</th>
                                     <th style="width: 10%">Acciones</th>
                                 </tr>
                             </thead>
@@ -122,12 +120,12 @@
                                     <c:choose>
                                         <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
                                             <tr>
-                                                <td>${tmpObj.descripcion}</td>
-                                                <td>${tmpObj.fechaInicio}</td>
-                                                <td>${tmpObj.fechaFin}</td>
                                                 <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
                                                 <td>${tmpObj.paquetesId.nombre}</td>
+                                                <td>${tmpObj.fechaInicio}</td>
+                                                <td>${tmpObj.fechaFin}</td>
                                                 <td>${tmpObj.formaPago}</td>
+                                                <td>${tmpObj.descripcion}</td>
                                                 <!--                    <td>
                                                 <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
                                               </td>
@@ -148,16 +146,45 @@
                                                 </td>
                                             </tr>
                                         </c:when>
-
+                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
+                                            <c:if test="${tmpObj.usersId.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                                <tr>
+                                                    <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
+                                                    <td>${tmpObj.paquetesId.nombre}</td>
+                                                    <td>${tmpObj.fechaInicio}</td>
+                                                    <td>${tmpObj.fechaFin}</td>
+                                                    <td>${tmpObj.formaPago}</td>
+                                                    <td>${tmpObj.descripcion}</td>
+                                                    <!--                    <td>
+                                                    <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
+                                                  </td>
+                                                  <td>
+                                                    <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.updatedAt }"/>
+                                                  </td>-->
+                                                    <td>
+                                                        <div class="form-button-action">
+                                                            <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
+                                                                    data-target="#${tmpObj.uniqueId}">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button type="button" data-toggle="modal" class="btn btn-link btn-danger"
+                                                                    data-target="#${tmpObj.id}${tmpObj.uniqueId}">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:when>
                                         <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('cliente')}">
                                             <c:if test="${miPersonaObtenida.email.equals(tmpObj.usersId.email)}">
                                                 <tr>
-                                                    <td>${tmpObj.descripcion}</td>
-                                                    <td>${tmpObj.fechaInicio}</td>
-                                                    <td>${tmpObj.fechaFin}</td>
                                                     <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
                                                     <td>${tmpObj.paquetesId.nombre}</td>
+                                                    <td>${tmpObj.fechaInicio}</td>
+                                                    <td>${tmpObj.fechaFin}</td>
                                                     <td>${tmpObj.formaPago}</td>
+                                                    <td>${tmpObj.descripcion}</td>
                                                     <!--                    <td>
                                                     <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
                                                   </td>
@@ -213,7 +240,7 @@
                                                             </div>
 
                                                             <div class="form-group form-group-default">
-                                                                <label>Descripción</label>
+                                                                <label>Observación</label>
                                                                 <input name="destroyAlgo" id="destroyAlgo" type="text" class="form-control" value="${tmpObj.descripcion}" readonly>
                                                             </div>
 
@@ -254,7 +281,7 @@
                                                             </div>
 
                                                             <div class="form-group form-group-default">
-                                                                <label>Descripción</label>
+                                                                <label>Observación</label>
                                                                 <input required name="editDescripcion" type="text" class="form-control" value="${tmpObj.descripcion }">
                                                             </div>
                                                             <div class="form-group form-group-default">
