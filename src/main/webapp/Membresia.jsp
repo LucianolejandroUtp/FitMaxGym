@@ -49,8 +49,20 @@
                                                     <input required name="addDescripcion" type="text" class="form-control">
                                                 </div>
                                                 <div class="form-group form-group-default">
-                                                    <label>Forma de pago</label>
-                                                    <input required name="addFormaPago" type="text" class="form-control">
+                                                    <label>Paquete</label>
+                                                    <select class="form-control" name="addPaqueteId" id="paquetesSelect">
+                                                        <c:forEach var="tempP" items="${miListaDePaquetes}">
+                                                            <option data-duracion="${tempP.duracion}" value="${tempP.id}">${tempP.nombre} - S/.${tempP.precio} - ${tempP.duracion} días</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group form-group-default">
+                                                    <label>Usuario</label>
+                                                    <select class="form-control" name="addUsuarioId">
+                                                        <c:forEach var="tempU" items="${miListaDeUsuarios}">
+                                                            <option value="${tempU.id}">${tempU.apellidos},${tempU.nombres}:${tempU.dni}</option>
+                                                        </c:forEach>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Fecha de Inicio</label>
@@ -63,20 +75,8 @@
                                                     <input name="addFechaFin" type="text" class="form-control" id="addFechaFin">
                                                 </div>
                                                 <div class="form-group form-group-default">
-                                                    <label>Usuario</label>
-                                                    <select class="form-control" name="addUsuarioId">
-                                                        <c:forEach var="tempU" items="${miListaDeUsuarios}">
-                                                            <option value="${tempU.id}">${tempU.apellidos},${tempU.nombres}:${tempU.dni}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group form-group-default">
-                                                    <label>Paquete</label>
-                                                    <select class="form-control" name="addPaqueteId">
-                                                        <c:forEach var="tempP" items="${miListaDePaquetes}">
-                                                            <option value="${tempP.id}">${tempP.nombre} - S/.${tempP.precio} - ${tempP.duracion} días</option>
-                                                        </c:forEach>
-                                                    </select>
+                                                    <label>Forma de pago</label>
+                                                    <input required name="addFormaPago" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -95,11 +95,11 @@
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Forma de pago</th>
                                     <th>Fecha inicio</th>
                                     <th>Fecha fin</th>
                                     <th>Usuario</th>
                                     <th>Paquete</th>
+                                    <th>Forma de pago</th>
                                     <th style="width: 10%">Acciones</th>
                                 </tr>
                             </thead>
@@ -107,11 +107,11 @@
                                 <c:forEach var="tmpObj" items="${mi_lista_de_objetos}">
                                     <tr>
                                         <td>${tmpObj.descripcion}</td>
-                                        <td>${tmpObj.formaPago}</td>
                                         <td>${tmpObj.fechaInicio}</td>
                                         <td>${tmpObj.fechaFin}</td>
-                                        <td>${tmpObj.paquetesId.nombre}</td>
                                         <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
+                                        <td>${tmpObj.paquetesId.nombre}</td>
+                                        <td>${tmpObj.formaPago}</td>
                                         <!--                    <td>
                                         <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
                                       </td>
@@ -262,11 +262,13 @@
                                                         $('#add-row').DataTable({
                                                             "pageLength": 5,
                                                         });
-                                                        console.log("bandera");
                                                         function handleDateChange(event) {
-                                                            console.log("bandera2");
                                                             const selectedDate = event.target.value;
+                                                            const selectElement = document.getElementById('paquetesSelect');
+                                                            const selectedOption = selectElement.options[selectElement.selectedIndex];
+                                                            const duracion = parseInt(selectedOption.getAttribute('data-duracion'));
                                                             console.log('Fecha seleccionada:', selectedDate);
+                                                            console.log("Duración: ", duracion)
                                                             // Obtener el valor de la fecha ingresada
                                                             var fechaInicio = document.getElementById('addFechaInicio').value;
                                                             // Comprobar si la fecha no está vacía
@@ -274,24 +276,19 @@
                                                                 // Crear un objeto Date a partir de la fecha ingresada
                                                                 var fecha = new Date(fechaInicio);
                                                                 // Sumar 5 días
-                                                                fecha.setDate(fecha.getDate() + 5);
+                                                                fecha.setDate(fecha.getDate() + duracion);
                                                                 // Formatear la nueva fecha en formato 'YYYY-MM-DD'
                                                                 var anio = fecha.getFullYear();
                                                                 var mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
                                                                 var dia = fecha.getDate().toString().padStart(2, '0');
-                                                                
-                                                                console.log("Datos: ", fecha, "año: ", anio, "Mes: ", mes, "Día: ", dia);
-                                                                var FechaFin = anio +"-"+mes + "-" +dia;
-                                                                            // Mostrar la nueva fecha en un campo de entrada
-                                                                            console.log("Fecha...", FechaFin);
-                                                                            document.getElementById('addFechaFin').value = FechaFin;
-                                                                        } else {
-                                                                            alert('Por favor, ingrese una fecha de inicio.');
-                                                                        }
-                                                                    }
 
-                                                                    ;
-
+                                                                var FechaFin = anio + "-" + mes + "-" + dia;
+                                                                // Mostrar la nueva fecha en un campo de entrada
+                                                                document.getElementById('addFechaFin').value = FechaFin;
+                                                            } else {
+                                                                alert('Por favor, ingrese una fecha de inicio.');
+                                                            }
+                                                        }
         </script>
 
     </jsp:attribute>
