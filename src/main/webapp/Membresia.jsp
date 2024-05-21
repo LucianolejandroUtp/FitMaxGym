@@ -29,9 +29,9 @@
                                 <div class="modal-header no-bd">
                                     <h5 class="modal-title">
                                         <span class="fw-mediumbold">
-                                            Nuevo</span> 
+                                            Nueva</span> 
                                         <span class="fw-light">
-                                            Paquete
+                                            Membresía
                                         </span>
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -76,7 +76,7 @@
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Fecha de Inicio</label>
-                                                    <input readonly="" name="addFechaInicio" type="text" class="form-control" id="addFechaInicio">
+                                                    <input name="addFechaInicio" id="addFechaInicio" type="text" class="form-control" readonly="" >
                                                 </div>
                                                 <div class="form-group form-group-default">
                                                     <label>Fecha de Fin</label>
@@ -108,10 +108,32 @@
                                 <tr>
                                     <th>Usuario</th>
                                     <th>Paquete</th>
-                                    <th>Fecha inicio</th>
-                                    <th>Fecha fin</th>
+                                    <th>Inicio</th>
+                                    <th>Fin</th>
                                     <th>Forma de pago</th>
                                     <th>Observación</th>
+
+                                    <c:choose>
+                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
+                                            <th>Estado</th>
+                                            <th>Creado</th>
+                                            <th>Modificado</th>
+
+                                        </c:when>
+                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
+                                            <th>Estado</th>
+                                            <th>Creado</th>
+                                            <th>Modificado</th>
+
+                                        </c:when>
+                                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                            <th>Estado</th>
+
+
+                                        </c:when>
+                                    </c:choose>
+
+
                                     <th style="width: 10%">Acciones</th>
                                 </tr>
                             </thead>
@@ -122,16 +144,13 @@
                                             <tr>
                                                 <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
                                                 <td>${tmpObj.paquetesId.nombre}</td>
-                                                <td>${tmpObj.fechaInicio}</td>
-                                                <td>${tmpObj.fechaFin}</td>
+                                                <td><fmt:formatDate type="date" dateStyle="short" value="${tmpObj.fechaInicio}"/></td>
+                                                <td><fmt:formatDate type="date" dateStyle="short" value="${tmpObj.fechaFin}"/></td>
                                                 <td>${tmpObj.formaPago}</td>
                                                 <td>${tmpObj.descripcion}</td>
-                                                <!--                    <td>
-                                                <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
-                                              </td>
-                                              <td>
-                                                <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.updatedAt }"/>
-                                              </td>-->
+                                                <td>${tmpObj.estado}</td>
+                                                <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tmpObj.createdAt }"/></td>
+                                                <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tmpObj.updatedAt }"/></td>
                                                 <td>
                                                     <div class="form-button-action">
                                                         <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
@@ -151,16 +170,13 @@
                                                 <tr>
                                                     <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
                                                     <td>${tmpObj.paquetesId.nombre}</td>
-                                                    <td>${tmpObj.fechaInicio}</td>
-                                                    <td>${tmpObj.fechaFin}</td>
+                                                    <td><fmt:formatDate type="date" dateStyle="short" value="${tmpObj.fechaInicio}"/></td>
+                                                    <td><fmt:formatDate type="date" dateStyle="short" value="${tmpObj.fechaFin}"/></td>
                                                     <td>${tmpObj.formaPago}</td>
                                                     <td>${tmpObj.descripcion}</td>
-                                                    <!--                    <td>
-                                                    <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
-                                                  </td>
-                                                  <td>
-                                                    <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.updatedAt }"/>
-                                                  </td>-->
+                                                    <td>${tmpObj.estado}</td>
+                                                    <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tmpObj.createdAt }"/></td>
+                                                    <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tmpObj.updatedAt }"/></td>
                                                     <td>
                                                         <div class="form-button-action">
                                                             <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
@@ -181,10 +197,11 @@
                                                 <tr>
                                                     <td>${tmpObj.usersId.apellidos}, ${tmpObj.usersId.nombres}</td>
                                                     <td>${tmpObj.paquetesId.nombre}</td>
-                                                    <td>${tmpObj.fechaInicio}</td>
-                                                    <td>${tmpObj.fechaFin}</td>
+                                                    <td><fmt:formatDate type="date" dateStyle="short" value="${tmpObj.fechaInicio}"/></td>
+                                                    <td><fmt:formatDate type="date" dateStyle="short" value="${tmpObj.fechaFin}"/></td>
                                                     <td>${tmpObj.formaPago}</td>
                                                     <td>${tmpObj.descripcion}</td>
+                                                    <td>${tmpObj.estado}</td>
                                                     <!--                    <td>
                                                     <fmt:formatDate type="both" dateStyle="medium" timeStyle="short" value="${tmpObj.createdAt }"/>
                                                   </td>
@@ -208,7 +225,6 @@
                                         </c:when>
                                     </c:choose>
 
-
                                     <!-- Modal Eliminar -->
                                 <div class="modal fade" id="${tmpObj.id}${tmpObj.uniqueId}" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -221,7 +237,7 @@
                                                     <span class="fw-mediumbold">
                                                         eliminar</span> 
                                                     <span class="fw-light">
-                                                        este paquete?
+                                                        esta membresía?
                                                     </span>
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -261,44 +277,72 @@
                                         <div class="modal-content">
                                             <div class="modal-header no-bd">
                                                 <h5 class="modal-title">
-                                                    <span class="fw-mediumbold">
-                                                        Editar</span> 
-                                                    <span class="fw-light">
-                                                        Departamento
-                                                    </span>
+                                                    <span class="fw-mediumbold">Editar</span> 
+                                                    <span class="fw-light">Membresía</span>
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form  action="PaqueteEditServlet" method="post">
+                                                <form action="MembresiaEditServlet" method="post">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">
-                                                                <label>Id</label>
-                                                                <input name="editId" type="text" class="form-control" value="${tmpObj.id }" readonly>
+                                                                <label>Membresía Id</label>
+                                                                <input readonly="" name="editId" type="text" class="form-control" value="${tmpObj.id }">
+                                                                
+                                                            </div>
+                                                            
+                                                            <div class="form-group form-group-default">
+                                                                <label>Usuario</label>
+                                                                <select class="form-control" name="editUsuarioId">
+                                                                    <c:forEach var="tempEU" items="${miListaDeUsuarios}">
+                                                                        <c:choose>
+                                                                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('administrador')}">
+                                                                                <option value="${tempEU.id}">${tempEU.apellidos},${tempEU.nombres}:${tempEU.dni}</option>
+                                                                            </c:when>
+                                                                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('empleado')}">
+                                                                                <c:if test="${tempEU.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                                                                    <option value="${tempEU.id}">${tempEU.apellidos},${tempEU.nombres}:${tempEU.dni}</option>
+                                                                                </c:if>
+                                                                            </c:when>
+                                                                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('cliente')}">
+                                                                                <c:if test="${miPersonaObtenida.email.equals(tempEU.email)}">
+                                                                                    <option value="${tempEU.id}" >${tempEU.apellidos},${tempEU.nombres}:${tempEU.dni}</option>
+                                                                                </c:if>
+                                                                            </c:when>
+                                                                        </c:choose>
+                                                                    </c:forEach>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Paquete</label>
+                                                                <select class="form-control" name="editPaqueteId" id="editPaquetesSelect">
+                                                                    <c:forEach var="tempP" items="${miListaDePaquetes}">
+                                                                        <option data-duracion="${tempP.duracion}" value="${tempP.id}">${tempP.nombre} - S/.${tempP.precio} - ${tempP.duracion} días</option>
+                                                                    </c:forEach>
+                                                                </select>
                                                             </div>
 
+                                                            <div class="form-group form-group-default">
+                                                                <label>Fecha inicio: <fmt:formatDate type="date" value="${tmpObj.fechaInicio }"/></label>
+                                                                <input name="editFechaInicio" id="editFechaInicio${tmpObj.id}" type="text" class="form-control" readonly="">
+                                                            </div>
+                                                            <div class="form-group form-group-default">
+                                                                <label>Fecha fin: <fmt:formatDate type="date" value="${tmpObj.fechaFin}"/></label>
+                                                                <%--<fmt:formatDate  pattern = "yyyy-MM-dd" value="${tmpObj.fechaFin }"/>--%>
+                                                                <input required name="editFechaFin" id="editFechaFin"  type="text" class="form-control">
+                                                            </div>
+
+                                                            <div class="form-group form-group-default">
+                                                                <label>Forma de Pago</label>
+                                                                <input required name="editFormaPago" type="text" class="form-control" value="${tmpObj.formaPago }">
+                                                            </div>
                                                             <div class="form-group form-group-default">
                                                                 <label>Observación</label>
                                                                 <input required name="editDescripcion" type="text" class="form-control" value="${tmpObj.descripcion }">
                                                             </div>
-                                                            <div class="form-group form-group-default">
-                                                                <label>Forma de Pago</label>
-                                                                <input required name="editNombre" type="text" class="form-control" value="${tmpObj.formaPago }">
-                                                            </div>
-                                                            <div class="form-group form-group-default">
-                                                                <label>Fecha inicio</label>
-                                                                <fmt:formatDate type="date" dateStyle="medium" value="${tmpObj.fechaInicio }"/>
-                                                                <input required name="editPrecio" type="date" class="form-control" value="${tmpObj.fechaInicio }">
-                                                            </div>
-                                                            <div class="form-group form-group-default">
-                                                                <label>Fecha fin</label>
-                                                                <fmt:formatDate  pattern = "yyyy-MM-dd" value="${tmpObj.fechaFin }"/>
-                                                                <input required name="editDuracion" type="date" class="form-control" value="${tmpObj.fechaFin}">
-                                                            </div>
-
                                                             <div class="form-group form-group-default">
                                                                 <label>Select</label>
                                                                 <select class="form-control" name="editEstado">
@@ -341,6 +385,7 @@
 
             document.addEventListener('DOMContentLoaded', (event) => {
                 const selectElementPaquete = document.getElementById('paquetesSelect');
+                const editPaqueteSelect = document.getElementById('editPaquetesSelect');
                 const today = new Date();
                 const year = today.getFullYear();
                 const month = String(today.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
@@ -348,6 +393,8 @@
 
                 console.log("Fecha actual:", year, "-", month, "-", day);
                 document.getElementById('addFechaInicio').value = year + "-" + month + "-" + day;
+                document.getElementById('editFechaInicio').value = year + "-" + month + "-" + day;
+                console.log("Bandera2");
 
                 // Añadir un event listener para el evento 'change'
                 selectElementPaquete.addEventListener('change', () => {
@@ -355,7 +402,7 @@
                     const selectedOption = selectElement.options[selectElement.selectedIndex];
                     const duracion = parseInt(selectedOption.getAttribute('data-duracion'));
 //                  console.log('Fecha seleccionada:', selectedDate);
-                    console.log("Duración: ", duracion)
+                    console.log("Duración: ", duracion);
                     // Obtener el valor de la fecha ingresada
                     var fechaInicio = document.getElementById('addFechaInicio').value;
                     // Comprobar si la fecha no está vacía
@@ -371,9 +418,13 @@
 
                         // Mostrar la nueva fecha en un campo de entrada
                         document.getElementById('addFechaFin').value = anio + "-" + mes + "-" + dia;
+                        document.getElementById('editFechaFin').value = anio + "-" + mes + "-" + dia;
                     } else {
                         alert('Por favor, ingrese una fecha de inicio.');
                     }
+                });
+                editPaqueteSelect.addEventListener('change', () => {
+                    conole.log("algo");
                 });
             });
         </script>
