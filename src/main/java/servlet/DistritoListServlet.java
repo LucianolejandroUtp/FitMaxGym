@@ -6,8 +6,10 @@ package servlet;
 
 import controlador.jpa.DistritosJpaController;
 import dto.Distritos;
+import dto.Users;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,22 +39,33 @@ public class DistritoListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+//        response.setContentType("text/html;charset=UTF-8");
 
-            DistritosJpaController jpacDistrito = new DistritosJpaController(emf);
-            List<Distritos> distritos = new ArrayList<>();
+        try {
+            HttpSession session = request.getSession();
+            Users miUsuario = (Users) session.getAttribute("miPersonaObtenida");
+            System.out.println("variable :" + session.getAttribute("miPersonaObtenida"));
+
+            if (miUsuario == null) {
+                System.out.println("Usuario vacío");
+                response.sendRedirect("auth/login.jsp");
+            } else {
+                System.out.println("Usuario lleno");
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+
+                DistritosJpaController jpacDistrito = new DistritosJpaController(emf);
+                List<Distritos> distritos = new ArrayList<>();
 
 //      System.out.println(jpacontroller_object.findDistritoEntities());
-            distritos = jpacDistrito.findDistritosEntities();
+                distritos = jpacDistrito.findDistritosEntities();
 
-            for (Distritos dis : distritos) {
-                System.out.println(dis.getId() + " - " + dis.getDescripcion());
+                for (Distritos dis : distritos) {
+                    System.out.println(dis.getId() + " - " + dis.getDescripcion());
+                }
+
+                request.setAttribute("mi_lista_de_distritos", distritos);
+                request.getRequestDispatcher("Distrito.jsp").forward(request, response);
             }
-
-            request.setAttribute("mi_lista_de_distritos", distritos);
-            request.getRequestDispatcher("Distrito.jsp").forward(request, response);
         } catch (IOException | ServletException theException) {
             System.out.println(theException);
         }

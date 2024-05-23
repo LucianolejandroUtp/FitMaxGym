@@ -18,6 +18,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -40,6 +41,7 @@ public class MembresiaListServlet extends HttpServlet {
         jpacUsuario = new UsersJpaController(emf);
         jpacPaquete = new PaquetesJpaController(emf);
     }
+
     @Override
     public void destroy() {
         System.out.println("Entrando a Servlet destroy");
@@ -59,19 +61,28 @@ public class MembresiaListServlet extends HttpServlet {
             throws ServletException, IOException {
         System.out.println("Entrando a MembresiaListServlet processRequest");
 //        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        Users miUsuario = (Users) session.getAttribute("miPersonaObtenida");
+        System.out.println("variable :" + session.getAttribute("miPersonaObtenida"));
 
-        List<Membresias> membresias = jpacMembresia.findMembresiasEntities();
-        List<Users> usuarios = jpacUsuario.findUsersEntities();
-        List<Paquetes> paquetes = jpacPaquete.findPaquetesEntities();
+        if (miUsuario == null) {
+            System.out.println("Usuario vacío");
+            response.sendRedirect("auth/login.jsp");
+        } else {
+            List<Membresias> membresias = jpacMembresia.findMembresiasEntities();
+            List<Users> usuarios = jpacUsuario.findUsersEntities();
+            List<Paquetes> paquetes = jpacPaquete.findPaquetesEntities();
 
-        for (Membresias obj : membresias) {
-            System.out.println(obj.getId() + " - " + obj.getPaquetesId().getNombre());
+            for (Membresias obj : membresias) {
+                System.out.println(obj.getId() + " - " + obj.getPaquetesId().getNombre());
+            }
+
+            request.setAttribute("mi_lista_de_objetos", membresias);
+            request.setAttribute("miListaDeUsuarios", usuarios);
+            request.setAttribute("miListaDePaquetes", paquetes);
+            request.getRequestDispatcher("Membresia.jsp").forward(request, response);
         }
 
-        request.setAttribute("mi_lista_de_objetos", membresias);
-        request.setAttribute("miListaDeUsuarios", usuarios);
-        request.setAttribute("miListaDePaquetes", paquetes);
-        request.getRequestDispatcher("Membresia.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

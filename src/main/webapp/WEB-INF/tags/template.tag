@@ -16,6 +16,8 @@
 <%@attribute name="body_area" fragment="true" %>
 <%@attribute name="script_area" fragment="true" %>
 
+<%@attribute name="justIndex" fragment="true" %>
+
 <%-- any content can be specified here e.g.: --%>
 <html>
     <head>
@@ -88,10 +90,10 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Home </a>
+                                    <a class="nav-link" href="#hero">Home </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Features</a>
+                                    <a class="nav-link" href="IndexServlet#about#">Features</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Pricing</a>
@@ -149,283 +151,274 @@
                                     </ul>
                                 </div>
                             </c:when>
+                            <c:otherwise>
+
+                            </c:otherwise>
                         </c:choose>
 
                     </nav>
                     <!-- End Navbar -->
-                    <c:choose>
-                        <c:when test="${miPersonaObtenida == null}">
-                            <!--Redirigiendo al login cuando no encuentra persona-->
-                            <% //response.sendRedirect("auth/login.jsp");%>
-
-                            <% //response.sendRedirect("index.jsp");%>
-
-                            <!--                                <ul class="nav nav-primary">
-                                                                <li class="nav-item">
-                                                                    <a href="auth/login.jsp">
-                                                                        <i class="fas fa-user"></i>
-                                                                        <p>LogIn</p>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>-->
-                        </c:when>
-                        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Administrador')}">
-                        </div>
-                        <!-- Sidebar -->
-                        <div class="sidebar sidebar-style-2">			
-                            <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                                <div class="sidebar-content">
 
 
-                                    <ul class="nav nav-primary">
-                                        <li class="nav-item">
-                                            <a href="RolListServlet">
-                                                <i class="fas fa-users-cog"></i>
-                                                <p>Roles</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="UserListServlet">
-                                                <i class="fas fa-user"></i>
-                                                <p>Usuarios</p>
-                                            </a>
-                                        </li>
-                                        <!--                  <li class="nav-item">
-                                                            <a href="TelefonoListServlet">
-                                                              <i class="fas fa-phone"></i>
-                                                              <p>Teléfono</p>
-                                                            </a>
-                                                          </li>-->
-                                        <!--                  <li class="nav-item">
-                                                            <a href="DireccionListServlet">
-                                                              <i class="fas fa-map-marked-alt"></i>
-                                                              <p>Dirección</p>
-                                                            </a>
-                                                          </li>-->
-                                        <li class="nav-item">
-                                            <a href="DistritoListServlet">
-                                                <i class="fas fa-map-marked-alt"></i>
-                                                <p>Distritos</p>
-                                            </a>
-                                        </li>
-                                        <!--                                    
-                                                                                <a href="DetalleComprobanteListServlet">
-                                                                                    <i class="fas fa-receipt"></i>
-                                                                                    <p>Detalle Comprobante</p>
-                                                                                </a>
-                                                                            </li>-->
-                                        <li class="nav-item">
-                                            <a href="MembresiaListServlet">
-                                                <i class="fas fa-handshake"></i>
-                                                <p>Membresías</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="PaqueteListServlet">
-                                                <i class="fas fa-list"></i>
-                                                <p>Paquetes</p>
-                                            </a>
-                                        </li>
-                                    </ul>
 
+                </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Sidebar -->
+                <c:choose>
+                    <c:when test="${miPersonaObtenida == null}">
+                        <!--Redirigiendo al login cuando no encuentra persona-->
+                        <% //response.sendRedirect("auth/login.jsp");%>
+
+                        <% //response.sendRedirect("index.jsp");%>
+
+                        <!--                                <ul class="nav nav-primary">
+                                                            <li class="nav-item">
+                                                                <a href="auth/login.jsp">
+                                                                    <i class="fas fa-user"></i>
+                                                                    <p>LogIn</p>
+                                                                </a>
+                                                            </li>
+                                                        </ul>-->
                     </c:when>
-                    <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Empleado')}">
-                    </div>
-                    <!-- Sidebar -->
-                    <div class="sidebar sidebar-style-2">			
-                        <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                            <div class="sidebar-content">
+                    <c:when test="${miPersonaObtenida != null}">
+
+                        <c:choose>
+                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Administrador')}">
+                                <!-- Sidebar -->
+                                <div class="sidebar sidebar-style-2">			
+                                    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                                        <div class="sidebar-content">
+                                            <ul class="nav nav-primary">
+                                                <li class="nav-item">
+                                                    <a href="RolListServlet">
+                                                        <i class="fas fa-users-cog"></i>
+                                                        <p>Roles</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="UserListServlet">
+                                                        <i class="fas fa-user"></i>
+                                                        <p>Usuarios</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="DistritoListServlet">
+                                                        <i class="fas fa-map-marked-alt"></i>
+                                                        <p>Distritos</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="MembresiaListServlet">
+                                                        <i class="fas fa-handshake"></i>
+                                                        <p>Membresías</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="PaqueteListServlet">
+                                                        <i class="fas fa-list"></i>
+                                                        <p>Paquetes</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Sidebar -->
+                            </c:when>
+                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Empleado')}">
+                                <!--</div>-->
+                                <!-- Sidebar -->
+                                <div class="sidebar sidebar-style-2">			
+                                    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                                        <div class="sidebar-content">
 
 
-                                <ul class="nav nav-primary">
-                                    <li class="nav-item">
-                                        <a href="UserListServlet">
-                                            <i class="fas fa-user"></i>
-                                            <p>Usuarios</p>
-                                        </a>
-                                    </li>
-                                    <!--  <li class="nav-item">
-                                        <a href="../DireccionListServlet">
-                                          <i class="fas fa-map-marked-alt"></i>
-                                          <p>Dirección</p>
-                                        </a>
-                                      </li>
-                                      <li class="nav-item">
-                                        <a href="../TelefonoListServlet">
-                                          <i class="fas fa-phone"></i>
-                                          <p>Teléfono</p>
-                                        </a>
-                                      </li>-->
-                                    <li class="nav-item">
-                                        <a href="MembresiaListServlet">
-                                            <i class="fas fa-handshake"></i>
-                                            <p>Membresías</p>
-                                        </a>
-                                    </li>
+                                            <ul class="nav nav-primary">
+                                                <li class="nav-item">
+                                                    <a href="UserListServlet">
+                                                        <i class="fas fa-user"></i>
+                                                        <p>Usuarios</p>
+                                                    </a>
+                                                </li>
+                                                <!--  <li class="nav-item">
+                                                    <a href="../DireccionListServlet">
+                                                      <i class="fas fa-map-marked-alt"></i>
+                                                      <p>Dirección</p>
+                                                    </a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                    <a href="../TelefonoListServlet">
+                                                      <i class="fas fa-phone"></i>
+                                                      <p>Teléfono</p>
+                                                    </a>
+                                                  </li>-->
+                                                <li class="nav-item">
+                                                    <a href="MembresiaListServlet">
+                                                        <i class="fas fa-handshake"></i>
+                                                        <p>Membresías</p>
+                                                    </a>
+                                                </li>
 
-                                </ul>
+                                            </ul>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Sidebar -->
+                            </c:when>
+                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Cliente')}">
+                                <!--</div>-->
+                                <!-- Sidebar -->
+                                <div class="sidebar sidebar-style-2">			
+                                    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                                        <div class="sidebar-content">
+
+
+                                            <ul class="nav nav-primary">
+                                                <li class="nav-item">
+                                                    <a href="index.jsp">
+                                                        <i class="fas fa-receipt"></i>
+                                                        <p>Menú</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="PersonaListServlet">
+                                                        <i class="fas fa-receipt"></i>
+                                                        <p>Perfil</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="MembresiaListServlet">
+                                                        <i class="fas fa-handshake"></i>
+                                                        <p>Membresías</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Sidebar -->
+                            </c:when>
+                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Técnico')}">
+                                <!--</div>-->
+                                <!-- Sidebar -->
+                                <div class="sidebar sidebar-style-2">			
+                                    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                                        <div class="sidebar-content">
+
+
+                                            <ul class="nav nav-primary">
+                                                <li class="nav-item">
+                                                    <a href="CitaListServlet">
+                                                        <i class="fas fa-handshake"></i>
+                                                        <p>Citas</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Sidebar -->
+                            </c:when>
+                            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Chofer')}">
+                                <!--</div>-->
+                                <!-- Sidebar -->
+                                <div class="sidebar sidebar-style-2">			
+                                    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                                        <div class="sidebar-content">
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Sidebar -->
+                            </c:when>
+                        </c:choose>
+                    </c:when>
+                    <c:otherwise>
+
+                    </c:otherwise>
+                </c:choose>
+
+                <jsp:invoke fragment="justIndex"/>
+                <!--Content DashBoard-->
+
+                <div class="main-panel">
+                    <div class="content">
+                        <div class="page-inner">
+
+                            <div class="page-category">
+
+
+
+
+
+
+
+
+
+
+                                <jsp:invoke fragment="body_area"/>
+
+
+
+
+
+
+
+
 
 
                             </div>
                         </div>
                     </div>
-                    <!-- End Sidebar -->
-                </c:when>
-                <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Cliente')}">
-                </div>
-                <!-- Sidebar -->
-                <div class="sidebar sidebar-style-2">			
-                    <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                        <div class="sidebar-content">
+                    <footer class="footer">
+                        <div class="container-fluid">
 
-
-                            <ul class="nav nav-primary">
-                                <li class="nav-item">
-                                    <a href="index.jsp">
-                                        <i class="fas fa-receipt"></i>
-                                        <p>Menú</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="PersonaListServlet">
-                                        <i class="fas fa-receipt"></i>
-                                        <p>Perfil</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="MembresiaListServlet">
-                                        <i class="fas fa-handshake"></i>
-                                        <p>Membresías</p>
-                                    </a>
-                                </li>
-                            </ul>
+                            <div class="copyright ml-auto">
+                                2024, made with <i class="fa fa-heart heart text-danger"></i> by <a href="#">Grupo Integrador</a>
+                            </div>				
                         </div>
-                    </div>
-                </div>
-                <!-- End Sidebar -->
-            </c:when>
-            <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Técnico')}">
-            </div>
-            <!-- Sidebar -->
-            <div class="sidebar sidebar-style-2">			
-                <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                    <div class="sidebar-content">
-
-
-                        <ul class="nav nav-primary">
-                            <li class="nav-item">
-                                <a href="CitaListServlet">
-                                    <i class="fas fa-handshake"></i>
-                                    <p>Citas</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    </footer>
                 </div>
             </div>
-            <!-- End Sidebar -->
-        </c:when>
-        <c:when test="${miPersonaObtenida.rolesId.descripcion.equalsIgnoreCase('Chofer')}">
-        </div>
-        <!-- Sidebar -->
-        <div class="sidebar sidebar-style-2">			
-            <div class="sidebar-wrapper scrollbar scrollbar-inner">
-                <div class="sidebar-content">
+
+
+            <!--   Core JS Files   -->
+            <script src="assets/js/core/jquery.3.2.1.min.js"></script>
+            <script src="assets/js/core/popper.min.js"></script>
+            <script src="assets/js/core/bootstrap.min.js"></script>
+            <!-- jQuery UI -->
+            <script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+            <script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+            <!-- jQuery Scrollbar -->
+            <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+            <!--Chart JS--> 
+            <script src="assets/js/plugin/chart.js/chart.min.js"></script>
+            <!--jQuery Sparkline--> 
+            <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+            <!--Chart Circle--> 
+            <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+            <!-- Datatables -->
+            <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+            <!--Bootstrap Notify--> 
+            <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+            <!--jQuery Vector Maps--> 
+            <script src="assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+            <script src="assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+            <!--Sweet Alert--> 
+            <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+            <!-- Atlantis JS -->
+            <script src="assets/js/atlantis.min.js"></script>
 
 
 
-
-                </div>
-            </div>
-        </div>
-        <!-- End Sidebar -->
-    </c:when>
-    <c:otherwise>
-
-    </c:otherwise>
-</c:choose>
-
-<!--Content DashBoard-->
-
-<div class="main-panel">
-    <div class="content">
-        <div class="page-inner">
-
-            <div class="page-category">
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
+            <jsp:invoke fragment="script_area"/>
 
-
-
-
-
-
-
-
-                <jsp:invoke fragment="body_area"/>
-
-
-
-
-
-
-
-
-
-
-            </div>
-        </div>
-    </div>
-    <footer class="footer">
-        <div class="container-fluid">
-
-            <div class="copyright ml-auto">
-                2024, made with <i class="fa fa-heart heart text-danger"></i> by <a href="#">Grupo Integrador</a>
-            </div>				
-        </div>
-    </footer>
-</div>
-</div>
-
-
-<!--   Core JS Files   -->
-<script src="assets/js/core/jquery.3.2.1.min.js"></script>
-<script src="assets/js/core/popper.min.js"></script>
-<script src="assets/js/core/bootstrap.min.js"></script>
-<!-- jQuery UI -->
-<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
-<!-- jQuery Scrollbar -->
-<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<!--Chart JS--> 
-<script src="assets/js/plugin/chart.js/chart.min.js"></script>
-<!--jQuery Sparkline--> 
-<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-<!--Chart Circle--> 
-<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
-<!-- Datatables -->
-<script src="assets/js/plugin/datatables/datatables.min.js"></script>
-<!--Bootstrap Notify--> 
-<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<!--jQuery Vector Maps--> 
-<script src="assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
-<script src="assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
-<!--Sweet Alert--> 
-<script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-<!-- Atlantis JS -->
-<script src="assets/js/atlantis.min.js"></script>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-
-<jsp:invoke fragment="script_area"/>
-
-</body>
+    </body>
 </html>

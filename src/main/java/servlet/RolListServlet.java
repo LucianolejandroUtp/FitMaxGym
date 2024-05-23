@@ -6,6 +6,7 @@ package servlet;
 
 import controlador.jpa.RolesJpaController;
 import dto.Roles;
+import dto.Users;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,20 +41,30 @@ public class RolListServlet extends HttpServlet {
 
         System.out.println("Entrando a Roles List Servlet");
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+            HttpSession session = request.getSession();
+            Users miUsuario = (Users) session.getAttribute("miPersonaObtenida");
+            System.out.println("variable :" + session.getAttribute("miPersonaObtenida"));
 
-            RolesJpaController jpacRoles = new RolesJpaController(emf);
-            List<Roles> roles = new ArrayList<>();
+            if (miUsuario == null) {
+                System.out.println("Usuario vacío");
+                response.sendRedirect("auth/login.jsp");
+            } else {
+
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+
+                RolesJpaController jpacRoles = new RolesJpaController(emf);
+                List<Roles> roles = new ArrayList<>();
 
 //      System.out.println(listD.findDistritoEntities());
-            roles = jpacRoles.findRolesEntities();
+                roles = jpacRoles.findRolesEntities();
 
-            for (Roles elemento : roles) {
-                System.out.println(elemento.getId() + " - " + elemento.getDescripcion());
+                for (Roles elemento : roles) {
+                    System.out.println(elemento.getId() + " - " + elemento.getDescripcion());
+                }
+
+                request.setAttribute("mi_lista_de_objetos", roles);
+                request.getRequestDispatcher("Rol.jsp").forward(request, response);
             }
-
-            request.setAttribute("mi_lista_de_objetos", roles);
-            request.getRequestDispatcher("Rol.jsp").forward(request, response);
 
         } catch (IOException | ServletException theException) {
             System.out.println(theException);

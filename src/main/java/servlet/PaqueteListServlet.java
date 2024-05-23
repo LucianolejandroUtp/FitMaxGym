@@ -6,6 +6,7 @@ package servlet;
 
 import controlador.jpa.PaquetesJpaController;
 import dto.Paquetes;
+import dto.Users;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,21 +43,30 @@ public class PaqueteListServlet extends HttpServlet {
         System.out.println("Entrando a Paquetes List Servlet");
 
         try {
+            HttpSession session = request.getSession();
+            Users miUsuario = (Users) session.getAttribute("miPersonaObtenida");
+            System.out.println("variable :" + session.getAttribute("miPersonaObtenida"));
 
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+            if (miUsuario == null) {
+                System.out.println("Usuario vacío");
+                response.sendRedirect("auth/login.jsp");
+            } else {
 
-            PaquetesJpaController jpacPaquetes = new PaquetesJpaController(emf);
-            List<Paquetes> paquetes = new ArrayList<>();
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+
+                PaquetesJpaController jpacPaquetes = new PaquetesJpaController(emf);
+                List<Paquetes> paquetes = new ArrayList<>();
 
 //      System.out.println(listD.findDistritoEntities());
-            paquetes = jpacPaquetes.findPaquetesEntities();
+                paquetes = jpacPaquetes.findPaquetesEntities();
 
-            for (Paquetes elemento : paquetes) {
-                System.out.println(elemento.getId() + " - " + elemento.getDescripcion());
+                for (Paquetes elemento : paquetes) {
+                    System.out.println(elemento.getId() + " - " + elemento.getDescripcion());
+                }
+
+                request.setAttribute("mi_lista_de_objetos", paquetes);
+                request.getRequestDispatcher("Paquete.jsp").forward(request, response);
             }
-
-            request.setAttribute("mi_lista_de_objetos", paquetes);
-            request.getRequestDispatcher("Paquete.jsp").forward(request, response);
         } catch (ServletException | IOException theException) {
             System.out.println(theException);
         }

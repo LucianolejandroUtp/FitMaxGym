@@ -18,6 +18,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,40 +44,50 @@ public class UserListServlet extends HttpServlet {
 
         System.out.println("Entrando a Persona List Servlet");
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+            HttpSession session = request.getSession();
+            Users miUsuario = (Users) session.getAttribute("miPersonaObtenida");
+            System.out.println("variable :" + session.getAttribute("miPersonaObtenida"));
 
-            UsersJpaController jpacUsuario = new UsersJpaController(emf);
-            RolesJpaController jpacRol = new RolesJpaController(emf);
-            DistritosJpaController jpacDistrito = new DistritosJpaController(emf);
+            if (miUsuario == null) {
+                System.out.println("Usuario vacío");
+                response.sendRedirect("auth/login.jsp");
+            } else {
 
-            List<Users> usuarios = new ArrayList<>();
-            List<Roles> roles = new ArrayList<>();
-            List<Distritos> distritos = new ArrayList<>();
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+
+                UsersJpaController jpacUsuario = new UsersJpaController(emf);
+                RolesJpaController jpacRol = new RolesJpaController(emf);
+                DistritosJpaController jpacDistrito = new DistritosJpaController(emf);
+
+                List<Users> usuarios = new ArrayList<>();
+                List<Roles> roles = new ArrayList<>();
+                List<Distritos> distritos = new ArrayList<>();
 //      List<Telefono> telefonos = new ArrayList<>();
 
 //      System.out.println(jpacontroller_object.findDistritoEntities());
-            usuarios = jpacUsuario.findUsersEntities();
-            roles = jpacRol.findRolesEntities();
-            distritos = jpacDistrito.findDistritosEntities();
+                usuarios = jpacUsuario.findUsersEntities();
+                roles = jpacRol.findRolesEntities();
+                distritos = jpacDistrito.findDistritosEntities();
 
-            usuarios.forEach(p -> System.out.println("Data: " + p.getId() + " - " + p.getNombres()));
-            //Expresion lambda reemplazando foreach
+                usuarios.forEach(p -> System.out.println("Data: " + p.getId() + " - " + p.getNombres()));
+                //Expresion lambda reemplazando foreach
 //            for (Persona per : usuarios) {
 //                System.out.print(per.getId() + ": " + per.getNombres() + ": " + per.getEmail());
 //            }
 //      for (TipoPersona tipoPer : roles) {
 //        System.out.println(tipoPer.getId() + ": " + tipoPer.getDescripcion());
 //      }
-            for (Users usr : usuarios) {
-                usr.getMembresiasList().forEach(d -> System.out.println(d.getDescripcion()));
+                for (Users usr : usuarios) {
+                    usr.getMembresiasList().forEach(d -> System.out.println(d.getDescripcion()));
+                }
+
+                roles.forEach(p -> System.out.println(p.getId() + " - " + p.getDescripcion()));
+
+                request.setAttribute("mi_lista_de_usuarios", usuarios);
+                request.setAttribute("mi_lista_de_roles", roles);
+                request.setAttribute("miListaDeDistritos", distritos);
+                request.getRequestDispatcher("User.jsp").forward(request, response);
             }
-
-            roles.forEach(p -> System.out.println(p.getId() + " - " + p.getDescripcion()));
-
-            request.setAttribute("mi_lista_de_usuarios", usuarios);
-            request.setAttribute("mi_lista_de_roles", roles);
-            request.setAttribute("miListaDeDistritos", distritos);
-            request.getRequestDispatcher("User.jsp").forward(request, response);
         } catch (IOException | ServletException theException) {
             System.out.println(theException);
         }

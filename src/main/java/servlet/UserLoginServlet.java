@@ -66,7 +66,7 @@ public class UserLoginServlet extends HttpServlet {
 
 //        request.setAttribute("miPersonaObtenida", miPersonaObtenida);
                 sesion.setAttribute("miPersonaObtenida", miPersonaObtenida);
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                request.getRequestDispatcher("MembresiaListServlet").forward(request, response);
 
 //        request.getRequestDispatcher("/NivelUsuarioServlet").include(request, response);
             } else {

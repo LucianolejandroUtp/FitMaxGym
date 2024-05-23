@@ -291,9 +291,9 @@
                                                             <div class="form-group form-group-default">
                                                                 <label>Membresía Id</label>
                                                                 <input readonly="" name="editId" type="text" class="form-control" value="${tmpObj.id }">
-                                                                
+
                                                             </div>
-                                                            
+
                                                             <div class="form-group form-group-default">
                                                                 <label>Usuario</label>
                                                                 <select class="form-control" name="editUsuarioId">
@@ -385,7 +385,7 @@
 
             document.addEventListener('DOMContentLoaded', (event) => {
                 const selectElementPaquete = document.getElementById('paquetesSelect');
-                const editPaqueteSelect = document.getElementById('editPaquetesSelect');
+//                const editPaqueteSelect = document.getElementById('editPaquetesSelect');
                 const today = new Date();
                 const year = today.getFullYear();
                 const month = String(today.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
@@ -393,7 +393,7 @@
 
                 console.log("Fecha actual:", year, "-", month, "-", day);
                 document.getElementById('addFechaInicio').value = year + "-" + month + "-" + day;
-                document.getElementById('editFechaInicio').value = year + "-" + month + "-" + day;
+//                document.getElementById('editFechaInicio').value = year + "-" + month + "-" + day;
                 console.log("Bandera2");
 
                 // Añadir un event listener para el evento 'change'
@@ -418,14 +418,13 @@
 
                         // Mostrar la nueva fecha en un campo de entrada
                         document.getElementById('addFechaFin').value = anio + "-" + mes + "-" + dia;
-                        document.getElementById('editFechaFin').value = anio + "-" + mes + "-" + dia;
+//                        document.getElementById('editFechaFin').value = anio + "-" + mes + "-" + dia;
                     } else {
                         alert('Por favor, ingrese una fecha de inicio.');
                     }
                 });
-                editPaqueteSelect.addEventListener('change', () => {
-                    conole.log("algo");
-                });
+                
+                
             });
         </script>
 
