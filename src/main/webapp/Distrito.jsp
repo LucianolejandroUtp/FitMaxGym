@@ -4,12 +4,10 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
-
 <t:template title="Listar Distritos">
     <jsp:attribute name="head_area">
     </jsp:attribute>
     <jsp:attribute name="body_area">
-
 
         <div class="col-md-12">
             <div class="card">
@@ -17,7 +15,7 @@
                     <div class="d-flex align-items-center">
                         <h4 class="card-title">Distritos</h4>
                         <div class="float-right ml-auto">
-                            <a class="btn btn-primary btn-border btn-round" href="ReporteDistritosServlet">
+                            <a class="btn btn-primary btn-border btn-round" href="DistritosServlet">
                                 <i class="far fa-file-pdf"></i>
                                 Reporte de Distritos
                             </a>

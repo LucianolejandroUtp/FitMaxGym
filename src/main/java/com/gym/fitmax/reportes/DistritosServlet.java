@@ -5,7 +5,6 @@
 package com.gym.fitmax.reportes;
 
 import controlador.jpa.MembresiasJpaController;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletContext;
@@ -17,12 +16,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperRunManager;
@@ -31,8 +26,8 @@ import net.sf.jasperreports.engine.JasperRunManager;
  *
  * @author Lucy
  */
-@WebServlet(name = "ReciboServlet", urlPatterns = {"/ReciboServlet"})
-public class ReciboServlet extends HttpServlet {
+@WebServlet(name = "DistritosServlet", urlPatterns = {"/DistritosServlet"})
+public class DistritosServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,6 +41,40 @@ public class ReciboServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        System.out.println("------------------------------Ejemplo ReporteDistritosServlet------------------------------");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("fitmax_gym_pu");
+//        EntityManager em = emf.createEntityManager();
+//        em.getTransaction().begin();
+//        Connection conexion = em.unwrap(Connection.class);
+
+        MembresiasJpaController membresias = new MembresiasJpaController(emf);
+        
+        try {
+            ServletContext context = request.getServletContext();
+            File jasperFile = new File(context.getRealPath("reportes/Simple_Blue.jasper"));
+            
+            System.out.println("Ruta: " + jasperFile);
+//            System.out.println("---Conexion: " + conexion.getCatalog());
+            
+            Map parametro = new HashMap();
+//            parametro.put("nn", "nn");
+            parametro.put("Parameter1", "3334");
+            parametro.put("Nombre", "Lucy");
+
+            
+            byte[] bytess = JasperRunManager.runReportToPdf(jasperFile.getPath(), parametro,  new JREmptyDataSource());
+
+            response.setContentType("application/pdf");
+
+            response.setContentLength(bytess.length);
+            ServletOutputStream output = response.getOutputStream();
+            response.getOutputStream();
+            output.write(bytess, 0, bytess.length);
+            output.flush();
+            output.close();
+        } catch (JRException e) {
+            System.out.println(e);
+        }
 
     }
 
