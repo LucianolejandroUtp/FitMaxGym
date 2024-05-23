@@ -182,6 +182,9 @@
                                                     <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${tmpObj.updatedAt }"/></td>
                                                     <td>
                                                         <div class="form-button-action">
+                                                            <a class="btn btn-link btn-primary btn-lg" href="JRReciboMembresiaServlet?id=${tmpObj.id}">
+                                                                <i class="fa fa-file-pdf"></i>
+                                                            </a>
                                                             <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
                                                                     data-target="#${tmpObj.uniqueId}">
                                                                 <i class="fa fa-edit"></i>
@@ -213,6 +216,9 @@
                                                   </td>-->
                                                     <td>
                                                         <div class="form-button-action">
+                                                            <a class="btn btn-link btn-primary btn-lg" href="JRReciboMembresiaServlet?id=${tmpObj.id}">
+                                                                <i class="fa fa-file-pdf"></i>
+                                                            </a>
                                                             <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
                                                                     data-target="#${tmpObj.uniqueId}">
                                                                 <i class="fa fa-edit"></i>
