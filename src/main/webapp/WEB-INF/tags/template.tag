@@ -87,7 +87,7 @@
 
 
 
-                        <div class="collapse navbar-collapse" id="navbarNav">
+<!--                        <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="#hero">Home </a>
@@ -102,7 +102,7 @@
                                     <a class="nav-link" href="#">Disabled</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div>-->
                         <c:choose>
                             <c:when test="${miPersonaObtenida == null}">
                                 <div class="container-fluid">
