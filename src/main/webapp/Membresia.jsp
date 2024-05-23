@@ -219,14 +219,14 @@
                                                             <a class="btn btn-link btn-primary btn-lg" href="JRReciboMembresiaServlet?id=${tmpObj.id}">
                                                                 <i class="fa fa-file-pdf"></i>
                                                             </a>
-                                                            <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
+<!--                                                            <button type="button" data-toggle="modal" class="btn btn-link btn-primary btn-lg"
                                                                     data-target="#${tmpObj.uniqueId}">
                                                                 <i class="fa fa-edit"></i>
                                                             </button>
                                                             <button type="button" data-toggle="modal" class="btn btn-link btn-danger"
                                                                     data-target="#${tmpObj.id}${tmpObj.uniqueId}">
                                                                 <i class="fa fa-times"></i>
-                                                            </button>
+                                                            </button>-->
                                                         </div>
                                                     </td>
                                                 </tr>
